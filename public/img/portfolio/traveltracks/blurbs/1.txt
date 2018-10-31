@@ -1,0 +1,1 @@
+To use TravelTracks, you need to authenticate yourself with Spotify, granting TravelTracks the right to create and modify playlists for you.
