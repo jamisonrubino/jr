@@ -66,12 +66,17 @@ export default class Portfolio extends Component {
         portfolioPiece = null
       }
 
+      let portfolioSource = (!this.state.portfolioPiece) ?
+        <a href="https://github.com/jamisonrubino/jr" className="portfolio__source" target="_blank">Portfolio Source</a>
+        : null
+
     return (
         <div className="div__portfolio">
           <div className="portfolio__ul__wrap">
             {links}
           </div>
-            {portfolioPiece}
+          {portfolioSource}
+          {portfolioPiece}
         </div>
       );
 

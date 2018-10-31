@@ -586,6 +586,43 @@ section.personal__path {
   font-weight: bold;
 } */
 
+.portfolio__source {
+  display: inline-block;
+  margin: 0 auto 30px;
+  position: relative;
+  font-weight: 600;
+}
+
+.portfolio__source::before, .portfolio__source::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  height: 2px;
+  margin: 0;
+  width: 0;
+  opacity: 0;
+  background: var(--blue);
+  transition: 0.4s width, 0.4s opacity;
+}
+
+.portfolio__source::before {
+  left: calc(50%);
+}
+
+.portfolio__source::after {
+  right: calc(50%);
+}
+
+.portfolio__source:hover {
+  text-decoration: none;
+  color: var(--blue);
+}
+
+.portfolio__source:hover:after, .portfolio__source:hover:before {
+  width: 50%;
+  opacity: 1;
+}
+
 
 
 .portfolio__item__wrap {
