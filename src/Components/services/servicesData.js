@@ -1,36 +1,63 @@
 export default {
-  "servicesSections": [
+  servicesSections: [
     {
-      "slug": "planning",
-      "name": "Consulting",
-      "items": [
-        "Layout", "Design", "Data Visualization", "Brainstorming", "Clarification", "Revision Requests", "Troubleshooting"
+      slug: "planning",
+      name: "Consulting",
+      items: [
+        "Layout",
+        "Design",
+        "Data Visualization",
+        "Brainstorming",
+        "Clarification",
+        "Revision Requests",
+        "Troubleshooting"
       ],
-      "color": "blue"
+      color: "blue"
     },
     {
-      "slug": "frontend",
-      "name": "Frontend",
-      "items": [
-        "HTML", "CSS", "Bootstrap", "JavaScript", "React", "Angular", "WordPress"
+      slug: "frontend",
+      name: "Frontend",
+      items: [
+        "HTML",
+        "CSS",
+        "Bootstrap",
+        "JavaScript",
+        "React",
+        "Angular",
+        "WordPress"
       ],
-      "color": "indigo"
+      color: "indigo"
     },
     {
-      "slug": "backend",
-      "name": "Backend",
-      "items": [
-        "Express", "Ruby on Rails", "PHP", "MongoDB", "PostgreSQL", "Firebase", "REST APIs"
+      slug: "backend",
+      name: "Backend",
+      items: [
+        "Express",
+        "Ruby on Rails",
+        "PHP",
+        "MongoDB",
+        "PostgreSQL",
+        "Firebase",
+        "REST APIs"
       ],
-      "color": "gray"
+      color: "gray"
     },
     {
-      "slug": "student",
-      "name": "Student work",
-      "items": [
-        "Photoshop", "Java", "Python", "C", "C#", "C++", ".NET", "Swift", "Scala", "React Native"
+      slug: "student",
+      name: "Student work",
+      items: [
+        "Photoshop",
+        "Java",
+        "Python",
+        "C",
+        "C#",
+        "C++",
+        ".NET",
+        "Swift",
+        "Scala",
+        "React Native"
       ],
-      "color": "orange"
+      color: "orange"
     }
   ]
-}
+};
