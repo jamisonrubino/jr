@@ -69,6 +69,7 @@ header h1 {
   background: linear-gradient(to bottom,
     rgba(52, 58, 64, 0.96),
     rgba(52, 58, 64, 1));
+  box-shadow: inset -1px -1px 6px rgba(30,30,30,0.6);
 }
 
 .header--fixed {
@@ -164,6 +165,8 @@ nav ul {
   padding: 0;
 }
 
+nav ul a {}
+
 nav ul li {
   list-style-type: none;
   cursor: pointer;
@@ -171,6 +174,7 @@ nav ul li {
   position: relative;
   color: #eceded;
   margin-right: 12px;
+  vertical-align: middle;
 }
 
 nav ul li::after {
@@ -283,8 +287,8 @@ nav ul li.selected {
 }
 
 .div__about>section>[class$="__content"] {
-  max-width: 960px;
-  min-width: 720px;
+  max-width: 760px;
+  min-width: 700px;
   width: 60%;
   margin: 0 auto;
   margin: auto;
@@ -298,7 +302,9 @@ nav ul li.selected {
 }
 
 .title__h2 {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: rgba(230,230,230,0.95);
 }
 
 .skills__h4 {
@@ -316,15 +322,17 @@ nav ul li.selected {
   z-index: 2;
   font-weight: bold;
   color: #eee;
-  background: rgba(0, 0, 0, 0.8);
-  padding: 45px;
+  background: rgba(52, 58, 64, 0.97);
+  padding: 75px;
+  box-shadow: 0 0 150px 0 rgba(220,220,220,0.15);
 }
 
 .title__skills__content .title__skills__heading {
-  color: black;
+  color: rgb(52, 58, 64);
   left: calc(50% - 77.1835px);
-  opacity: 0.8;
+  opacity: 0.97;
   font-weight: 700;
+  text-shadow: 1px -1px 1px rgba(10,10,10,1);
 }
 
 .title__skills__background {
@@ -335,6 +343,43 @@ nav ul li.selected {
   height: 100%;
   z-index: 1;
   /* background-blend-mode: multiply; */
+}
+
+
+.title__skills__content > [class^=skills--] {
+  text-align: left;
+  display: block;
+  overflow: hidden;
+  height: fit-content;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.title__skills [class^=skills--]:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.title__skills [class^=skills--] h3, .title__skills [class^=skills--] h4 {
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.title__skills [class^=skills--] h3 {
+  display: inline-block;
+  width: unset;
+  font-size: 1.5em;
+  float: left;
+}
+
+.title__skills [class^=skills--] h4 {
+  display: inline-block;
+  float: right;
+  font-size: 1.25em;
+  padding-top: 2px;
+}
+
+.skills--frontend h3 {
+
 }
 
 section.education {
@@ -349,7 +394,7 @@ section.education {
   overflow: hidden;
 }
 
-section.personal__path {
+.personal__path {
   text-align: left;
   color: gold;
   position: relative;
@@ -357,9 +402,17 @@ section.personal__path {
   padding: 90px 30px;
 }
 
+.personal__path a {
+  color: gold;
+}
+
+.personal__path a:hover {
+
+}
+
 .education__content {
   position: relative;
-  padding: 45px;
+  padding: 60px;
   z-index: 2;
   background: rgba(255, 255, 255, 0.7);
   color: #222;
@@ -382,6 +435,7 @@ section.personal__path {
 
 .education__h4 {
   padding-left: 30px;
+  font-size: 1.4em;
 }
 
 .personal__path__content {
@@ -399,7 +453,7 @@ section.personal__path {
   opacity: 0.85;
   font-weight: 600;
   left: calc(50% - 143.175px);
-  top: -77px;
+  top: -78px;
 }
 
 .personal__path__background {
@@ -482,6 +536,10 @@ section.personal__path {
   margin-bottom: 20px;
 }
 
+.portfolio__li__wrapper > a {
+  display: inline-block;
+}
+
 .portfolio__li {
   -webkit-filter: saturate(0);
   filter: saturate(0);
@@ -489,13 +547,13 @@ section.personal__path {
   margin-bottom: 20px;
 }
 
-.portfolio__li:hover {
+.portfolio__li__wrapper > a:hover .portfolio__li {
   filter: saturate(40%);
   -webkit-filter: saturate(40%);
 }
 
 .portfolio__li--selected,
-.portfolio__ul__wrap a:active [class^="portfolio__li"] {
+.portfolio__li__wrapper > a:active [class^="portfolio__li"] {
   filter: saturate(100%) !important;
   -webkit-filter: saturate(100%) !important;
 }
@@ -1468,6 +1526,30 @@ h3.gray {
 
 /* MEDIA QUERIES */
 @media only screen and (max-width: 840px) {
+
+  .title__h2 {
+    margin-bottom: 20px;
+    font-size: 1.7em;
+  }
+
+  [class^=skills--] h3 {
+    display: block !important;
+    width: 100% !important;
+    font-size: 1.5em !important;
+    text-align: center;
+  }
+
+  .title__skills [class^=skills--] h4 {
+    display: block;
+    float: unset;
+    text-align: center;
+    font-size: 1.2em !important;
+  }
+
+  [class^=skills--]:not(:last-child) {
+    margin-bottom: 15px;
+  }
+
   .portfolio__ul__wrap {
     width: 500px;
   }
@@ -1574,7 +1656,7 @@ h3.gray {
   }
 
   .div__about>section>[class$="content"] {
-    min-width: 300px;
+    min-width: 530px;
     width: 85%;
     font-size: 1em;
   }
@@ -1595,9 +1677,13 @@ h3.gray {
   }
 
   .header--fixed {
-    height: 100px;
+    height: 55px;
     min-width: 100% !important;
     padding: 10px;
+  }
+
+  .header--fixed .header__home {
+    display: none;
   }
 
   .header--fixed>.header__home {
@@ -1631,8 +1717,10 @@ h3.gray {
   }
 
   .div__about>section>[class$="content"] {
-    padding: 15px;
+    padding: 30px;
   }
+
+  .div__about [class$="heading"] {}
 
   .div__about h2 {
     font-size: 1.3em;
@@ -1640,8 +1728,8 @@ h3.gray {
   }
 
   .div__about blockquote {
-    text-align: justify;
-    text-justify: inter-word;
+    /* text-align: justify; */
+    /* text-justify: inter-word; */
   }
 
   .portfolio__ul__wrap {
@@ -1803,6 +1891,10 @@ h3.gray {
   .div__about>section>[class$="content"] {
     min-width: 300px;
     width: 85%;
+    font-size: 1em;
+  }
+
+  .div__about a {
     font-size: 1em;
   }
 }

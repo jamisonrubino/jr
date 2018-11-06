@@ -13,7 +13,7 @@ export default class PortfolioPiece extends Component {
 
   componentDidMount() {
     const li = document.querySelector(".portfolio__li__wrapper"),
-      piece = this.props.piece,
+      piece = JSON.parse(JSON.stringify(this.props.piece)),
       summary = piece.summary;
     let ulItemWidth = Number(window.getComputedStyle(li).width.slice(0, -2)),
       ulItemMargin = Number(

@@ -7,18 +7,13 @@ export default class Portfolio extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      portfolioPiece: null,
       pieceIndex: null
     };
-    this.updateNav = this.updateNav.bind(this);
-    this.pieceIndex = this.pieceIndex.bind(this);
-    this.hidePortfolioPiece = this.hidePortfolioPiece.bind(this);
   }
 
   componentDidMount() {
     if (this.props.match.params.piece) {
       this.setState({
-        portfolioPiece: this.props.match.params.piece,
         pieceIndex: portfolioData.portfolioPieces.findIndex(
           piece => piece.slug === this.props.match.params.piece
         )
@@ -26,67 +21,68 @@ export default class Portfolio extends Component {
     }
   }
 
-  updateNav() {
-    this.props.updateNav("portfolio");
-  }
+  updateNav = _ => this.props.updateNav("portfolio");
 
-  pieceIndex(index) {
-    this.setState({ pieceIndex: index });
-  }
+  pieceIndex = index => this.setState({ pieceIndex: index });
 
-  hidePortfolioPiece() {
-    this.history.pushState(null, "portfolio");
-  }
+  hidePortfolioPiece = _ => this.history.pushState(null, "portfolio");
 
   render() {
-    const links = portfolioData.portfolioPieces.map((pc, i) => (
-      <div
-        className={
-          "portfolio__li__wrapper" +
-          (this.state.pieceIndex !== null
-            ? i > this.state.pieceIndex + (2 - (this.state.pieceIndex % 3))
-              ? " hidden"
-              : ""
-            : "")
-        }
-        onClick={() =>
-          this.state.pieceIndex !== i ? this.pieceIndex(i) : null
-        }
-        key={i}
-      >
-        <Link
-          to={
-            "/portfolio/" + (this.state.pieceIndex === i ? "" : pc.slug + "/")
-          }
-        >
-          <li
+    const lastRow = (i, arr) =>
+        i >= arr.length - 1 - ((arr.length - 1) % 3) ? { marginBottom: 0 } : {},
+      links = portfolioData.portfolioPieces.map((pc, i, arr) => {
+        let lastRowStyle = lastRow(i, arr);
+        return (
+          <div
             className={
-              "portfolio__li" +
-              (this.state.pieceIndex === i ? "--selected" : "")
+              "portfolio__li__wrapper" +
+              (this.state.pieceIndex !== null
+                ? i > this.state.pieceIndex + (2 - (this.state.pieceIndex % 3))
+                  ? " hidden"
+                  : ""
+                : "")
             }
-            style={pc.style}
-          />
-          <span
-            className={
-              "portfolio__li__title" +
-              (this.state.pieceIndex === i ? "--selected" : "")
+            onClick={() =>
+              this.state.pieceIndex !== i ? this.pieceIndex(i) : null
             }
+            key={i}
+            style={lastRowStyle}
           >
-            {(() =>
-              pc.name
-                .split("")
-                .map(l => (l === l.toUpperCase() ? " " + l : l))
-                .join(""))()}
-          </span>
-        </Link>
-      </div>
-    ));
+            <Link
+              to={
+                "/portfolio/" +
+                (this.state.pieceIndex === i ? "" : pc.slug + "/")
+              }
+            >
+              <li
+                className={
+                  "portfolio__li" +
+                  (this.state.pieceIndex === i ? "--selected" : "")
+                }
+                style={{ ...pc.style, ...lastRowStyle }}
+              />
+              <span
+                className={
+                  "portfolio__li__title" +
+                  (this.state.pieceIndex === i ? "--selected" : "")
+                }
+              >
+                {(() =>
+                  pc.name
+                    .split("")
+                    .map(l => (l === l.toUpperCase() ? " " + l : l))
+                    .join(""))()}
+              </span>
+            </Link>
+          </div>
+        );
+      });
 
     console.log(portfolioData.portfolioPieces);
 
     let portfolioPiece, portfolioSource;
 
-    if (this.state.portfolioPiece) {
+    if (this.state.pieceIndex != null) {
       portfolioPiece = (
         <PortfolioPiece
           numSlides={
@@ -99,6 +95,7 @@ export default class Portfolio extends Component {
       );
       portfolioSource = null;
     } else {
+      portfolioPiece = null;
       portfolioSource = (
         <a
           href="https://github.com/jamisonrubino/jr"
@@ -108,7 +105,6 @@ export default class Portfolio extends Component {
           Portfolio Source
         </a>
       );
-      portfolioPiece = null;
     }
 
     return (

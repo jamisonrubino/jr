@@ -20,11 +20,12 @@ export default {
       items: [
         "HTML",
         "CSS",
+        "SCSS/Sass",
         "Bootstrap",
         "JavaScript",
+        "JQuery",
         "React",
-        "Angular",
-        "WordPress"
+        "Angular"
       ],
       color: "indigo"
     },
@@ -35,10 +36,10 @@ export default {
         "Express",
         "Ruby on Rails",
         "PHP",
-        "MongoDB",
-        "PostgreSQL",
-        "Firebase",
-        "REST APIs"
+        "SQL",
+        "NoSQL",
+        "APIs",
+        "WordPress"
       ],
       color: "gray"
     },

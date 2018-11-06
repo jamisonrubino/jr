@@ -2,20 +2,24 @@ export default {
   aboutSections: [
     {
       title: "Junior Full-Stack Web Developer",
-      skills:
-        "HTML, CSS, Node, Javascript (jQuery, React, Angular1), Ruby on Rails, PHP, MongoDB, PostgreSQL, Firebase, Github, Heroku",
+      skills: [
+        ["Frontend", "HTML, CSS, JavaScript, jQuery, React, Angular", "indigo"],
+        ["Backend", "SQL, APIs, PHP, Ruby on Rails, WordPress", "gray"],
+        ["Version Control", "Github, Heroku", "blue"]
+      ],
       style: {
-        backgroundImage: "url('/img/about/skills.jpg')",
+        backgroundImage: "linear-gradient(to bottom right, rgba(20,20,20,0.8), rgba(0,0,0,0.3)), url('/img/about/skills.jpg')",
         backgroundSize: "100% auto",
         backgroundPosition: "right top",
-        filter: "contrast(70%) saturate(90%) brightness(80%)"
+        filter: "contrast(85%) saturate(70%) brightness(100%)",
+        backgroundBlendMode: "darken"
       }
     },
     {
       education: [
         "Bloc: Full-Stack Web Development",
         "TeamTreehouse: JavaScript, HTML, CSS, PHP, WordPress",
-        "University of Idaho: English & Psychology BA (unfinished)",
+        "University of Idaho: English & Psychology BA (2 of 4 years)",
         "Institute for Integrative Nutrition: Health Coaching"
       ],
       style: {
@@ -34,12 +38,10 @@ export default {
         "Now, after graduation, I'm open to contract work.",
         "See what I offer. Contact me if you think I can help."
       ],
-      skills:
-        "HTML, CSS, Javascript, React, Angular1, Ruby on Rails, PHP, MongoDB, PostgreSQL, Firebase, Github, Node",
       style: {
         backgroundImage: "url('/img/about/path.jpg')",
-        backgroundSize: "100% auto",
         backgroundPosition: "right top",
+        backgroundSize: "100% auto",
         filter: "contrast(85%) saturate(110%) brightness(80%)",
         boxShadow: "inset 0 0 4000px rgba(20,20,20,0.7)"
       }

@@ -42,12 +42,12 @@ export default {
     {
       name: "BlocJams",
       blurbs: [
-        "Bloc Jams consists of a landing page, album list, and album song list with a functional music player, which plays, pauses and skips tracks, tracking play progress with a working seek bar.",
-        "For lack of song and album work, we loaded 12 iterations of the same album in the Collection page, but a richer body of album templates would load if more were added to the catalog data.",
-        "With album and song data retrieved, we attach event handlers to each song row in the album song list, so play buttons appear on hover, and toggle between play/pause when clicked. When a song plays, the player bar updates with the song’s name, artist, album, total time and time elapsed. The player bar also allows you to seek by dragging the seek thumb to your desired time, just as the volume slider allows you to set the current volume."
+        "Bloc Jam's landing page.",
+        "Collection: a list of albums in the database. For lack of album data, I looped the three albums provided, but the library is scalable.",
+        "Album/:id shows the track list with play/pause buttons and a working player bar (with prev/play/pause/next buttons, a working seek bar, and volume slider)."
       ],
       summary:
-        "Bloc students, to practice Javascript and JQuery, and to introduce AngularJS, build a simple Spotify-style music library with the Buzz engine.",
+        "Bloc students, to practice JavaScript and jQuery, and to introduce AngularJS, build a simple Spotify-style music library with the Buzz engine.",
       slug: "blocjams",
       style: {
         backgroundImage: "url('/img/portfolio/blocjams/img/cover.jpg')",

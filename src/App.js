@@ -41,7 +41,7 @@ class App extends Component {
   };
 
   render() {
-    var NavWithRoute = withRouter(props => <Nav {...props} />),
+    var NavWithRoute = withRouter(props => <Nav {...props} size={this.state.size} />),
       PortfolioWithProps = props => (
         <Portfolio {...props} size={this.state.size} />
       ),
