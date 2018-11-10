@@ -7,12 +7,20 @@ export default class Nav extends Component {
     this.state = {
       headerTop: true
     };
+    this.headerTimeout = null
   }
 
   componentDidMount() {
     document.addEventListener("scroll", () => {
+      clearTimeout(this.headerTimeout)
       let isTop = window.scrollY <= 130;
-      if (this.state.headerTop !== isTop) this.setState({ headerTop: isTop });
+      if (this.state.headerTop !== isTop) {
+        if (!isTop) {
+          this.headerTimeout = setTimeout(() => this.setState({ headerTop: isTop }), (window.scrollY > 400 ? 0 : 400));
+        } else {
+          this.setState({ headerTop: isTop });
+        }
+      }
     });
     window.scrollTo(0, 0);
   }

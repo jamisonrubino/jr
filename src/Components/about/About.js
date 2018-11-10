@@ -7,23 +7,83 @@ export default class About extends Component {
     this.state = {
       height: false,
       width: false,
-      bgSize: window.innerWidth > window.innerHeight ? `100% auto` : `auto 100%`,
-      tsBgSize: window.innerWidth > window.innerHeight ? `${window.innerWidth}px auto` : `auto 100%`
+      bgSize:
+        window.innerWidth > window.innerHeight ? `100% auto` : `auto 100%`,
+      tsBgSize:
+        window.innerWidth > window.innerHeight
+          ? `${window.innerWidth}px auto`
+          : `auto 100%`
     };
     this.titleSkillsBackgroundStyle = null;
     this.educationBackgroundStyle = null;
     this.personalPathBackgroundStyle = null;
     this.setWTimeout = null;
+    this.sNum = -1;
+    this.oldScroll = 0;
+    this.sections = null;
+    this.scrollable = true;
+    this.scrollTimeout = null;
+    this.scrollCaptureTimeout = null;
   }
 
   componentDidMount() {
     window.addEventListener("resize", this.resize);
+    window.addEventListener("scroll", this.handleScroll, false);
+    window.addEventListener("touchend", this.handleScroll, false);
+    window.addEventListener("mousewheel", this.handleScroll, false);
     this.resize();
+    this.sections = document.getElementsByClassName("about__section__wrap");
   }
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.resize);
+    window.removeEventListener("scroll", this.handleScroll, false);
+    window.removeEventListener("touchend", this.handleScroll, false);
+    window.removeEventListener("mousewheel", this.handleScroll, false);
   }
+
+  handleScroll = e => {
+    var that = this;
+
+    const scrollFn = _ => {
+      console.log("scrollFn");
+      if (that.oldScroll > window.scrollY) {
+        if (that.sNum > 0) {
+          that.sections[--that.sNum].scrollIntoView({
+            alignToTop: true,
+            behavior: "smooth"
+          });
+        } else if (that.sNum === 0) {
+          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+          that.sNum--;
+        }
+      } else if (that.oldScroll < window.scrollY) {
+        if (that.sNum < that.sections.length - 1) {
+          that.sections[++that.sNum].scrollIntoView({
+            alignToTop: true,
+            behavior: "smooth"
+          });
+        }
+      }
+    };
+
+    if (this.scrollable) {
+      this.scrollable = false;
+      clearTimeout(this.scrollTimeout);
+      clearTimeout(this.scrollCaptureTimeout);
+      this.scrollCaptureTimeout = setTimeout(function() {
+        scrollFn();
+        this.scrollTimeout = setTimeout(function() {
+          that.scrollable = true;
+          that.oldScroll = window.pageYOffset;
+        }, 800);
+      }, 200);
+    } else {
+      e.preventDefault();
+      e.stopPropagation();
+      e.returnValue = false;
+    }
+  };
 
   resize = _ => {
     if (this.state.height != this.state.width) {
@@ -120,39 +180,48 @@ export default class About extends Component {
 
     return (
       <div className="div__about">
-        <section className="title__skills">
-          <div
-            className="title__skills__background"
-            style={this.titleSkillsBackgroundStyle}
-          />
-          <div className="title__skills__content">
-            <h2 className="title__skills__heading">Skills</h2>
-            <h2 className="title__h2">{title}</h2>
-            {skills}
-          </div>
-        </section>
+        <div className="about__section__wrap">
+          <section className="title__skills">
+            <div
+              className="title__skills__background"
+              style={this.titleSkillsBackgroundStyle}
+            />
+            <div className="title__skills__content">
+              <h2 className="title__skills__heading">Skills</h2>
+              <h2 className="title__h2">{title}</h2>
+              {skills}
+            </div>
+          </section>
+        </div>
 
-        <section className="education">
-          <div
-            className="education__background"
-            style={this.educationBackgroundStyle}
-          />
-          <div className="education__content">
-            <h2 className="education__heading">Education</h2>
-            {education}
-          </div>
-        </section>
+        <div className="about__section__wrap">
+          <section className="education">
+            <div
+              className="education__background"
+              style={this.educationBackgroundStyle}
+            />
+            <div className="education__content">
+              <h2 className="education__heading">Education</h2>
+              {education}
+            </div>
+          </section>
+        </div>
 
-        <section className="personal__path">
-          <div
-            className="personal__path__background"
-            style={this.personalPathBackgroundStyle}
-          />
-          <div className="personal__path__content">
-            <h2 className="personal__path__heading">My Path</h2>
-            {path}
+        <div className="about__section__wrap">
+          <section className="personal__path">
+            <div
+              className="personal__path__background"
+              style={this.personalPathBackgroundStyle}
+            />
+            <div className="personal__path__content">
+              <h2 className="personal__path__heading">My Path</h2>
+              {path}
+            </div>
+          </section>
+          <div className="about__to__top__div">
+            <span className="about__to__top" />
           </div>
-        </section>
+        </div>
       </div>
     );
   }
