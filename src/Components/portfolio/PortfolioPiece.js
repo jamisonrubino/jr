@@ -20,7 +20,6 @@ export default class PortfolioPiece extends Component {
         window.getComputedStyle(li).marginRight.slice(0, -2)
       );
     this.setState({ summary });
-    console.log(this.props.index % 3);
     if (this.props.index === 0 || this.props.index % 3 === 0) {
       this.setState({
         diamondOffset: `calc(50% - ${ulItemWidth + ulItemMargin + 14}px)`
@@ -33,8 +32,6 @@ export default class PortfolioPiece extends Component {
     } else if (this.props.index % 3 === 1) {
       this.setState({ diamondOffset: "calc(50% - 14px)" });
     }
-
-    console.log("diamondOffset: ", this.state.diamondOffset);
   }
 
   render() {

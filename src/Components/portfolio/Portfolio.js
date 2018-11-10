@@ -78,8 +78,6 @@ export default class Portfolio extends Component {
         );
       });
 
-    console.log(portfolioData.portfolioPieces);
-
     let portfolioPiece, portfolioSource;
 
     if (this.state.pieceIndex != null) {

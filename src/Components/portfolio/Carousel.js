@@ -46,7 +46,6 @@ export default class Carousel extends Component {
       slideWidth,
       slideDots: new Array(numSlides + 1).join("0").split("")
     });
-    console.log(this.state.data);
   }
 
   arrowHandler(side) {
