@@ -19,7 +19,7 @@ export default {
       education: [
         "Bloc: Full-Stack Web Development",
         "TeamTreehouse: JavaScript, HTML, CSS, PHP, WordPress",
-        "University of Idaho: English & Psychology BA (2 of 4 years)",
+        "University of Idaho: English, Psychology (2 years)",
         "Institute for Integrative Nutrition: Health Coaching"
       ],
       style: {
@@ -34,7 +34,7 @@ export default {
         "In grade school, design and writing helped me express myself. I carried this to university, where I studied art, psychology and English.",
         "Over time, my focus shifted outwards. I found myself drawn to web development as a platform for expression. For that, I put university on pause.",
         "With help from TeamTreehouse, I built my first full-stack websites with HTML, CSS, Javascript, PHP and SQL.",
-        "For a more professional foundation, I found formal education at Bloc. Bloc appealed to my learning style with remote work, flexible hours and regular mentorship. With them, I refined my abilities with Javascript, learned several MVC frameworks, and was introduced to Ruby on Rails.",
+        "For a more professional foundation, I found formal education at Bloc. Bloc appealed to my learning style with remote work, flexible hours and regular mentorship. With Bloc, I refined my abilities with Javascript, learned common design patterns in React and Angular, built and implemented RESTful APIs, and was introduced to Ruby on Rails.",
         "Now, after graduation, I'm open to contract work.",
         "See what I offer. Contact me if you think I can help."
       ],

@@ -12,8 +12,10 @@ export default class About extends Component {
       tsBgSize:
         window.innerWidth > window.innerHeight
           ? `${window.innerWidth}px auto`
-          : `auto 100%`
+          : `auto 100%`,
+      arrowDown: true
     };
+
     this.titleSkillsBackgroundStyle = null;
     this.educationBackgroundStyle = null;
     this.personalPathBackgroundStyle = null;
@@ -24,6 +26,7 @@ export default class About extends Component {
     this.scrollable = true;
     this.scrollTimeout = null;
     this.scrollCaptureTimeout = null;
+    this.arrowWrap = null;
   }
 
   componentDidMount() {
@@ -33,6 +36,9 @@ export default class About extends Component {
     window.addEventListener("mousewheel", this.handleScroll, false);
     this.resize();
     this.sections = document.getElementsByClassName("about__section__wrap");
+    this.arrowWrap = document.getElementsByClassName(
+      "about__arrow__wrap"
+    )[0].classList;
   }
 
   componentWillUnmount() {
@@ -42,12 +48,11 @@ export default class About extends Component {
     window.removeEventListener("mousewheel", this.handleScroll, false);
   }
 
-  handleScroll = e => {
+  handleScroll = (e, down) => {
     var that = this;
 
-    const scrollFn = _ => {
-      console.log("scrollFn");
-      if (that.oldScroll > window.scrollY) {
+    const scrollSection = down => {
+      if ((down !== undefined && !down) || that.oldScroll > window.scrollY) {
         if (that.sNum > 0) {
           that.sections[--that.sNum].scrollIntoView({
             alignToTop: true,
@@ -57,12 +62,19 @@ export default class About extends Component {
           window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
           that.sNum--;
         }
-      } else if (that.oldScroll < window.scrollY) {
+      } else if (
+        (down !== undefined && down) ||
+        that.oldScroll < window.scrollY
+      ) {
         if (that.sNum < that.sections.length - 1) {
           that.sections[++that.sNum].scrollIntoView({
             alignToTop: true,
             behavior: "smooth"
           });
+          if (that.sNum === that.sections.length - 1)
+            this.setState({ arrowDown: false }, () =>
+              that.arrowWrap.add("pending")
+            );
         }
       }
     };
@@ -72,16 +84,16 @@ export default class About extends Component {
       clearTimeout(this.scrollTimeout);
       clearTimeout(this.scrollCaptureTimeout);
       this.scrollCaptureTimeout = setTimeout(function() {
-        scrollFn();
-        this.scrollTimeout = setTimeout(function() {
+        that.arrowWrap.add("pending");
+        scrollSection(down);
+        that.scrollTimeout = setTimeout(function() {
           that.scrollable = true;
           that.oldScroll = window.pageYOffset;
+          that.arrowWrap.remove("pending");
+          if (that.sNum <= 0 && that.state.arrowDown === false)
+            that.setState({ arrowDown: true });
         }, 800);
       }, 200);
-    } else {
-      e.preventDefault();
-      e.stopPropagation();
-      e.returnValue = false;
     }
   };
 
@@ -218,8 +230,13 @@ export default class About extends Component {
               {path}
             </div>
           </section>
-          <div className="about__to__top__div">
-            <span className="about__to__top" />
+          <div
+            className={
+              "about__arrow__wrap" + (this.state.arrowDown ? " down" : " up")
+            }
+            onClick={e => this.handleScroll(e, this.state.arrowDown)}
+          >
+            <span className="about__arrow" />
           </div>
         </div>
       </div>
