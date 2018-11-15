@@ -13,8 +13,6 @@ export default class Services extends Component {
     };
   }
 
-  componentWillMount() {}
-
   componentDidMount() {
     this.setItems();
   }
@@ -24,11 +22,11 @@ export default class Services extends Component {
       selectedItems = [],
       sections = [],
       services = JSON.parse(JSON.stringify(servicesData.servicesSections));
-    services.map((s, i) => {
+    for (let i = 0; i < services.length; i++) {
       sections[i] = false;
       selectedItems[i] = [];
-      items[i] = s.items.slice(0).sort();
-    });
+      items[i] = services[i].items.slice(0).sort();
+    }
     this.setState({ items, selectedItems, sections, services });
   };
 

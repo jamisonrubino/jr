@@ -50,14 +50,19 @@ export default class PortfolioPiece extends Component {
     return (
       <section className="portfolio__item__wrap">
         <div className="portfolio__item__body">
-          <Link to="/portfolio" className="portfolio__item__body__x" onClick={_=>this.props.close(true)}>
+          <Link
+            to="/portfolio"
+            className="portfolio__item__body__x"
+            onClick={_ => this.props.close(true)}
+          >
             &#x2715;
           </Link>
           <section className={this.props.piece.slug}>
             <div className="portfolio__item__summary">
               <p className="portfolio__p">{this.state.summary}</p>
               <a
-                href={demoLen ? demo : "javascript:;"}
+                href={demoLen ? demo : ""}
+                onClick={e => (!sourceLen ? e.preventDefault() : null)}
                 className={
                   "portfolio__item__link--demo" + (demoLen ? "" : " missing")
                 }
@@ -66,7 +71,8 @@ export default class PortfolioPiece extends Component {
                 Open Demo
               </a>
               <a
-                href={sourceLen ? source : "javascript:;"}
+                href={sourceLen ? source : ""}
+                onClick={e => (!sourceLen ? e.preventDefault() : null)}
                 className={
                   "portfolio__item__link--source" +
                   (sourceLen ? "" : " missing")

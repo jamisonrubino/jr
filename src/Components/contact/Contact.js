@@ -117,7 +117,11 @@ export default class Contact extends Component {
           <div className="contact__menu__item__wrapper">
             <div className="contact__menu__info">
               <span className="contact__menu__info--info">
-                <a href={props.item[2]} target={props.item[3] ? "" : "_blank"}>
+                <a
+                  href={props.item[2]}
+                  target={props.item[3] ? "" : "_blank"}
+                  rel="noopener noreferrer"
+                >
                   {props.item[0] === "Email" && this.props.size === "sm"
                     ? props.item[1].slice(0, props.item[1].indexOf("@")) +
                       "\n" +
@@ -151,8 +155,11 @@ export default class Contact extends Component {
             >
               <img
                 src={"/img/contact/" + props.item[0].toLowerCase() + ".svg"}
+                alt=""
               />
-              <a href="javascript:;">{props.item[0]}</a>
+              <a href="" onClick={e => e.preventDefault()}>
+                {props.item[0]}
+              </a>
             </div>
           </div>
         </div>
@@ -220,6 +227,7 @@ export default class Contact extends Component {
               href="http://creativecommons.org/licenses/by/3.0/"
               title="Creative Commons BY 3.0"
               target="_blank"
+              rel="noopener noreferrer"
             >
               CC 3.0 BY
             </a>

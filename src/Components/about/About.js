@@ -104,7 +104,7 @@ export default class About extends Component {
   };
 
   resize = _ => {
-    if (this.state.height != this.state.width) {
+    if (this.state.height !== this.state.width) {
       if (window.innerWidth > window.innerHeight && !this.state.width) {
         this.setState({ height: false, width: true, bgSize: "100% auto" });
       } else if (window.innerWidth < window.innerHeight && !this.state.height) {
@@ -130,7 +130,7 @@ export default class About extends Component {
   render() {
     const about = JSON.parse(JSON.stringify(aboutData.aboutSections)),
       title = about[0].title,
-      skills = about[0].skills.map(s => (
+      skills = about[0].skills.map((s, i) => (
         <div
           className={
             "skills--" +
@@ -140,6 +140,7 @@ export default class About extends Component {
               .join("_")
               .toLowerCase()
           }
+          key={i}
         >
           <h3 className={s[2]}>{s[0]}</h3>
           <h4 className={s[2]}>{s[1]}</h4>
@@ -153,7 +154,7 @@ export default class About extends Component {
           ];
         if (Array.isArray(track)) {
           return (
-            <h4 className="education__h4">
+            <h4 className="education__h4" key={i}>
               <b>{track[0]}</b>
               {track[1]}
             </h4>

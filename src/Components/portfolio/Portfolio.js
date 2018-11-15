@@ -7,6 +7,7 @@ export default class Portfolio extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      itemSelected: this.props.itemSelected,
       pieceIndex: null
     };
   }
@@ -27,13 +28,14 @@ export default class Portfolio extends Component {
 
   hidePortfolioPiece = _ => {
     this.history.pushState(null, "portfolio");
-    this.props.setItemSelected(true)
-  }
+    this.props.setItemSelected(true);
+  };
 
   render() {
     const lastRow = (i, arr) =>
         i >= arr.length - 1 - ((arr.length - 1) % 3) ? { marginBottom: 0 } : {},
-      links = portfolioData.portfolioPieces.map((pc, i, arr) => {
+      pData = JSON.parse(JSON.stringify(portfolioData.portfolioPieces)),
+      links = pData.map((pc, i, arr) => {
         let lastRowStyle = lastRow(i, arr);
         return (
           <div
@@ -46,7 +48,7 @@ export default class Portfolio extends Component {
                 : "")
             }
             onClick={_ =>
-                this.state.pieceIndex !== i ? this.pieceIndex(i) : null
+              this.state.pieceIndex !== i ? this.pieceIndex(i) : null
             }
             key={i}
             style={lastRowStyle}
@@ -56,10 +58,7 @@ export default class Portfolio extends Component {
                 "/portfolio/" +
                 (this.state.pieceIndex === i ? "" : pc.slug + "/")
               }
-              onClick={
-                _=>
-                  this.props.setItemSelected(true)
-              }
+              onClick={_ => this.props.setItemSelected(true)}
             >
               <li
                 className={
@@ -74,7 +73,7 @@ export default class Portfolio extends Component {
                   (this.state.pieceIndex === i ? "--selected" : "")
                 }
               >
-                {(() =>
+                {(_ =>
                   pc.name
                     .split("")
                     .map(l => (l === l.toUpperCase() ? " " + l : l))
@@ -90,10 +89,8 @@ export default class Portfolio extends Component {
     if (this.state.pieceIndex != null) {
       portfolioPiece = (
         <PortfolioPiece
-          numSlides={
-            portfolioData.portfolioPieces[this.state.pieceIndex].numSlides
-          }
-          piece={portfolioData.portfolioPieces[this.state.pieceIndex]}
+          numSlides={pData[this.state.pieceIndex].numSlides}
+          piece={pData[this.state.pieceIndex]}
           index={this.state.pieceIndex}
           size={this.props.size}
           close={this.props.setItemSelected}
@@ -107,6 +104,7 @@ export default class Portfolio extends Component {
           href="https://github.com/jamisonrubino/jr"
           className="portfolio__source"
           target="_blank"
+          rel="noopener noreferrer"
         >
           Portfolio Source
         </a>
@@ -114,7 +112,11 @@ export default class Portfolio extends Component {
     }
 
     return (
-      <div className={"div__portfolio" + (this.props.itemSelected ? " item__selected" : "")}>
+      <div
+        className={
+          "div__portfolio" + (this.state.itemSelected ? " item__selected" : "")
+        }
+      >
         <div className="portfolio__ul__wrap">{links}</div>
         {portfolioSource}
         {portfolioPiece}

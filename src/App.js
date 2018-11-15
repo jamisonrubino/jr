@@ -20,8 +20,19 @@ class App extends Component {
 
   componentDidMount() {
     window.addEventListener("resize", this.resize);
-    this.resize();
+    setTimeout(this.resize(), 1000);
   }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.pathRoot(prevProps) === "portfolio" &&
+      this.pathRoot(this.props) !== "portfolio"
+    )
+      this.setState({ portfolioItemSelected: false });
+  }
+
+  pathRoot = props =>
+    props.location.pathname.split("/").filter(x => x.length > 0)[0];
 
   resize = () => {
     if (
@@ -37,20 +48,26 @@ class App extends Component {
     }
   };
 
-  contactFill = servicesSelection =>
-    this.setState({ servicesSelection });
+  contactFill = servicesSelection => this.setState({ servicesSelection });
 
   setPortfolioItemSelected = (closed = false, path = null) => {
-    path = this.props.location.pathname.split("/").filter(x=>x.length > 0);
-    let portfolioItemSelected = closed || path.length > 1
-    this.setState({ portfolioItemSelected }, _=>console.log(path, portfolioItemSelected))
-  }
-
+    path =
+      path || this.props.location.pathname.split("/").filter(x => x.length > 0);
+    let portfolioItemSelected = closed || path.length > 1;
+    this.setState({ portfolioItemSelected });
+  };
 
   render() {
-    var NavWithRoute = withRouter(props => <Nav {...props} size={this.state.size} />),
+    var NavWithRoute = withRouter(props => (
+        <Nav {...props} size={this.state.size} />
+      )),
       PortfolioWithProps = props => (
-        <Portfolio {...props} size={this.state.size} setItemSelected={this.setPortfolioItemSelected} itemSelected={this.state.portfolioItemSelected} />
+        <Portfolio
+          {...props}
+          size={this.state.size}
+          setItemSelected={this.setPortfolioItemSelected}
+          itemSelected={this.state.portfolioItemSelected}
+        />
       ),
       ServicesWithProps = props => (
         <Services
