@@ -11,6 +11,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      portfolioItemSelected: false,
       selectedNavItem: "home",
       size: "lg",
       servicesSelection: false
@@ -36,14 +37,20 @@ class App extends Component {
     }
   };
 
-  contactFill = servicesSelection => {
+  contactFill = servicesSelection =>
     this.setState({ servicesSelection });
-  };
+
+  setPortfolioItemSelected = (closed = false, path = null) => {
+    path = this.props.location.pathname.split("/").filter(x=>x.length > 0);
+    let portfolioItemSelected = closed || path.length > 1
+    this.setState({ portfolioItemSelected }, _=>console.log(path, portfolioItemSelected))
+  }
+
 
   render() {
     var NavWithRoute = withRouter(props => <Nav {...props} size={this.state.size} />),
       PortfolioWithProps = props => (
-        <Portfolio {...props} size={this.state.size} />
+        <Portfolio {...props} size={this.state.size} setItemSelected={this.setPortfolioItemSelected} itemSelected={this.state.portfolioItemSelected} />
       ),
       ServicesWithProps = props => (
         <Services

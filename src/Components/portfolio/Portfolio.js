@@ -25,7 +25,10 @@ export default class Portfolio extends Component {
 
   pieceIndex = index => this.setState({ pieceIndex: index });
 
-  hidePortfolioPiece = _ => this.history.pushState(null, "portfolio");
+  hidePortfolioPiece = _ => {
+    this.history.pushState(null, "portfolio");
+    this.props.setItemSelected(true)
+  }
 
   render() {
     const lastRow = (i, arr) =>
@@ -42,8 +45,8 @@ export default class Portfolio extends Component {
                   : ""
                 : "")
             }
-            onClick={() =>
-              this.state.pieceIndex !== i ? this.pieceIndex(i) : null
+            onClick={_ =>
+                this.state.pieceIndex !== i ? this.pieceIndex(i) : null
             }
             key={i}
             style={lastRowStyle}
@@ -52,6 +55,10 @@ export default class Portfolio extends Component {
               to={
                 "/portfolio/" +
                 (this.state.pieceIndex === i ? "" : pc.slug + "/")
+              }
+              onClick={
+                _=>
+                  this.props.setItemSelected(true)
               }
             >
               <li
@@ -89,6 +96,7 @@ export default class Portfolio extends Component {
           piece={portfolioData.portfolioPieces[this.state.pieceIndex]}
           index={this.state.pieceIndex}
           size={this.props.size}
+          close={this.props.setItemSelected}
         />
       );
       portfolioSource = null;
@@ -106,7 +114,7 @@ export default class Portfolio extends Component {
     }
 
     return (
-      <div className="div__portfolio">
+      <div className={"div__portfolio" + (this.props.itemSelected ? " item__selected" : "")}>
         <div className="portfolio__ul__wrap">{links}</div>
         {portfolioSource}
         {portfolioPiece}

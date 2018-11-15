@@ -5,8 +5,8 @@ export default class About extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      height: false,
-      width: false,
+      height: window.innerWidth < window.innerHeight,
+      width: window.innerWidth > window.innerHeight,
       bgSize:
         window.innerWidth > window.innerHeight ? `100% auto` : `auto 100%`,
       tsBgSize:
@@ -15,8 +15,16 @@ export default class About extends Component {
           : `auto 100%`,
       arrowDown: true
     };
-
-    this.titleSkillsBackgroundStyle = null;
+    this.unload = _ => {
+      window.removeEventListener("resize", this.resize);
+      window.removeEventListener("scroll", this.handleScroll, false);
+      window.removeEventListener("touchend", this.handleScroll, false);
+      window.removeEventListener("mousewheel", this.handleScroll, false);
+      window.removeEventListener("unload", this.unload);
+    };
+    this.titleSkillsBackgroundStyle = JSON.parse(
+      JSON.stringify(aboutData.aboutSections[0].style)
+    );
     this.educationBackgroundStyle = null;
     this.personalPathBackgroundStyle = null;
     this.setWTimeout = null;
@@ -30,11 +38,14 @@ export default class About extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener("resize", this.resize);
-    window.addEventListener("scroll", this.handleScroll, false);
-    window.addEventListener("touchend", this.handleScroll, false);
-    window.addEventListener("mousewheel", this.handleScroll, false);
-    this.resize();
+    setTimeout(_ => {
+      this.resize();
+      window.addEventListener("resize", this.resize);
+      window.addEventListener("scroll", this.handleScroll, false);
+      window.addEventListener("touchend", this.handleScroll, false);
+      window.addEventListener("mousewheel", this.handleScroll, false);
+      window.addEventListener("beforeunload", this.unload);
+    }, 750);
     this.sections = document.getElementsByClassName("about__section__wrap");
     this.arrowWrap = document.getElementsByClassName(
       "about__arrow__wrap"
@@ -42,15 +53,11 @@ export default class About extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener("resize", this.resize);
-    window.removeEventListener("scroll", this.handleScroll, false);
-    window.removeEventListener("touchend", this.handleScroll, false);
-    window.removeEventListener("mousewheel", this.handleScroll, false);
+    this.unload();
   }
 
   handleScroll = (e, down) => {
     var that = this;
-
     const scrollSection = down => {
       if ((down !== undefined && !down) || that.oldScroll > window.scrollY) {
         if (that.sNum > 0) {
@@ -78,7 +85,6 @@ export default class About extends Component {
         }
       }
     };
-
     if (this.scrollable) {
       this.scrollable = false;
       clearTimeout(this.scrollTimeout);
@@ -104,11 +110,6 @@ export default class About extends Component {
       } else if (window.innerWidth < window.innerHeight && !this.state.height) {
         this.setState({ height: true, width: false, bgSize: "auto 100%" });
       }
-    } else {
-      this.setState({
-        height: window.innerWidth < window.innerHeight,
-        width: window.innerWidth > window.innerHeight
-      });
     }
     this.setWidth();
   };
@@ -181,12 +182,12 @@ export default class About extends Component {
       });
 
     this.titleSkillsBackgroundStyle = {
-      ...JSON.parse(JSON.stringify(about[0].style)),
+      ...this.titleSkillsBackgroundStyle,
       backgroundSize: this.state.tsBgSize
     };
-    this.educationBackgroundStyle = JSON.parse(JSON.stringify(about[1].style));
+    this.educationBackgroundStyle = about[1].style;
     this.personalPathBackgroundStyle = {
-      ...JSON.parse(JSON.stringify(about[2].style)),
+      ...about[2].style,
       backgroundSize: this.state.bgSize
     };
 

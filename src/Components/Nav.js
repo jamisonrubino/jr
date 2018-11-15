@@ -29,6 +29,8 @@ export default class Nav extends Component {
     const path = this.props.location.pathname
       .split("/")
       .filter(x => x.length > 0)[0];
+    let sm = this.props.size === "sm" && !this.state.headerTop,
+      home = this.props.location.pathname.length <= 1
     return (
       <div
         className="header__wrap"
@@ -37,13 +39,14 @@ export default class Nav extends Component {
         <header className={"header" + (this.state.headerTop ? "" : "--fixed")}>
           <div className="header__home">
             <h1 className="header__home__link">
-              <Link to="/">Jamison Rubino</Link>
+              <Link to="/" style={home && sm ? {color: "gold"} : {}}>{`${sm ? "JR" : "Jamison Rubino"}`}</Link>
             </h1>
             <span
               className={
                 "header__home__tagline" +
-                (this.props.location.pathname.length <= 1 ? "--selected" : "")
+                (home ? "--selected" : "")
               }
+              style={sm ? {display: 'none'} : {}}
             >
               JUNIOR WEB DEVELOPER
             </span>

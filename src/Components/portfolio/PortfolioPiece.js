@@ -24,7 +24,6 @@ export default class PortfolioPiece extends Component {
       this.setState({
         diamondOffset: `calc(50% - ${ulItemWidth + ulItemMargin + 14}px)`
       });
-      // 284 = 250 (125 + 125) + 20 margin + 14 random
     } else if (this.props.index % 3 === 2) {
       this.setState({
         diamondOffset: `calc(50% + ${ulItemWidth + ulItemMargin - 14}px)`
@@ -51,7 +50,7 @@ export default class PortfolioPiece extends Component {
     return (
       <section className="portfolio__item__wrap">
         <div className="portfolio__item__body">
-          <Link to="/portfolio" className="portfolio__item__body__x">
+          <Link to="/portfolio" className="portfolio__item__body__x" onClick={_=>this.props.close(true)}>
             &#x2715;
           </Link>
           <section className={this.props.piece.slug}>
