@@ -3,6 +3,7 @@ build*/
 node_modules/
 node_modules.zip
 .htaccess
+.prettierrc
 package*
-sw*
-npm*
+sw-precache-config.js
+*.log

@@ -1,126 +1,101 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import portfolioData from "./portfolioData";
-import PortfolioPiece from "./PortfolioPiece";
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import portfolioData from './portfolioData'
+import PortfolioPiece from './PortfolioPiece'
 
 export default class Portfolio extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      itemSelected: this.props.itemSelected,
-      pieceIndex: null
-    };
-  }
+	constructor(props) {
+		super(props)
+		this.state = {
+			itemSelected: this.props.itemSelected,
+			pieceIndex: null
+		}
+	}
 
-  componentDidMount() {
-    if (this.props.match.params.piece) {
-      this.setState({
-        pieceIndex: portfolioData.portfolioPieces.findIndex(
-          piece => piece.slug === this.props.match.params.piece
-        )
-      });
-    }
-  }
+	componentDidMount() {
+		if (this.props.match.params.piece) {
+			this.setState({
+				pieceIndex: portfolioData.portfolioPieces.findIndex(piece => piece.slug === this.props.match.params.piece)
+			})
+		}
+	}
 
-  updateNav = _ => this.props.updateNav("portfolio");
+	updateNav = _ => this.props.updateNav('portfolio')
 
-  pieceIndex = index => this.setState({ pieceIndex: index });
+	pieceIndex = index => this.setState({ pieceIndex: index })
 
-  hidePortfolioPiece = _ => {
-    this.history.pushState(null, "portfolio");
-    this.props.setItemSelected(true);
-  };
+	hidePortfolioPiece = _ => {
+		this.history.pushState(null, 'portfolio')
+		this.props.setItemSelected(true)
+	}
 
-  render() {
-    const lastRow = (i, arr) =>
-        i >= arr.length - 1 - ((arr.length - 1) % 3) ? { marginBottom: 0 } : {},
-      pData = JSON.parse(JSON.stringify(portfolioData.portfolioPieces)),
-      links = pData.map((pc, i, arr) => {
-        let lastRowStyle = lastRow(i, arr);
-        return (
-          <div
-            className={
-              "portfolio__li__wrapper" +
-              (this.state.pieceIndex !== null
-                ? i > this.state.pieceIndex + (2 - (this.state.pieceIndex % 3))
-                  ? " hidden"
-                  : ""
-                : "")
-            }
-            onClick={_ =>
-              this.state.pieceIndex !== i ? this.pieceIndex(i) : null
-            }
-            key={i}
-            style={lastRowStyle}
-          >
-            <Link
-              to={
-                "/portfolio/" +
-                (this.state.pieceIndex === i ? "" : pc.slug + "/")
-              }
-              onClick={_ => this.props.setItemSelected(true)}
-            >
-              <li
-                className={
-                  "portfolio__li" +
-                  (this.state.pieceIndex === i ? "--selected" : "")
-                }
-                style={{ ...pc.style, ...lastRowStyle }}
-              />
-              <span
-                className={
-                  "portfolio__li__title" +
-                  (this.state.pieceIndex === i ? "--selected" : "")
-                }
-              >
-                {(_ =>
-                  pc.name
-                    .split("")
-                    .map(l => (l === l.toUpperCase() ? " " + l : l))
-                    .join(""))()}
-              </span>
-            </Link>
-          </div>
-        );
-      });
+	render() {
+		//lastRow = (i, arr) => (i >= arr.length - 1 - ((arr.length - 1) % 3) ? { marginBottom: 0 } : {}),
+		const pData = JSON.parse(JSON.stringify(portfolioData.portfolioPieces)),
+			links = pData.map((pc, i, arr) => {
+				let title = pc.name.slice(0).replace(/([a-z])([A-Z])/g, "$1 $2")
+				return (
+					<div
+						className={
+							'portfolio__li__wrapper' +
+							(this.state.pieceIndex !== null
+								? i > this.state.pieceIndex + (2 - (this.state.pieceIndex % 3))
+									? ' hidden'
+									: ''
+								: '')
+						}
+						onClick={_ => (this.state.pieceIndex !== i ? this.pieceIndex(i) : null)}
+						key={i}
+					>
+						<Link
+							to={'/portfolio/' + (this.state.pieceIndex === i ? '' : pc.slug + '/')}
+							onClick={_ => this.props.setItemSelected(true)}
+						>
+							<li
+								className={'portfolio__li' + (this.state.pieceIndex === i ? '--selected' : '')}
+								style={pc.style}
+							/>
+							<span className={'portfolio__li__title' + (this.state.pieceIndex === i ? '--selected' : '')}>
+								{title}
+							</span>
+						</Link>
+					</div>
+				)
+			})
 
-    let portfolioPiece, portfolioSource;
+		let portfolioPiece, portfolioSource
 
-    if (this.state.pieceIndex != null) {
-      portfolioPiece = (
-        <PortfolioPiece
-          numSlides={pData[this.state.pieceIndex].numSlides}
-          piece={pData[this.state.pieceIndex]}
-          index={this.state.pieceIndex}
-          size={this.props.size}
-          close={this.props.setItemSelected}
-        />
-      );
-      portfolioSource = null;
-    } else {
-      portfolioPiece = null;
-      portfolioSource = (
-        <a
-          href="https://github.com/jamisonrubino/jr"
-          className="portfolio__source"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Portfolio Source
-        </a>
-      );
-    }
+		if (this.state.pieceIndex !== null) {
+			portfolioPiece = (
+				<PortfolioPiece
+					numSlides={pData[this.state.pieceIndex].numSlides}
+					piece={pData[this.state.pieceIndex]}
+					index={this.state.pieceIndex}
+					size={this.props.size}
+					close={this.props.setItemSelected}
+				/>
+			)
+			portfolioSource = null
+		} else {
+			portfolioPiece = null
+			portfolioSource = (
+				<a
+					href="https://github.com/jamisonrubino/jr"
+					className="portfolio__source"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					Portfolio Source
+				</a>
+			)
+		}
 
-    return (
-      <div
-        className={
-          "div__portfolio" + (this.state.itemSelected ? " item__selected" : "")
-        }
-      >
-        <div className="portfolio__ul__wrap">{links}</div>
-        {portfolioSource}
-        {portfolioPiece}
-      </div>
-    );
-  }
+		return (
+			<div className={'div__portfolio' + (this.state.itemSelected ? ' item__selected' : '')}>
+				<div className="portfolio__ul__wrap">{links}</div>
+				{portfolioSource}
+				{portfolioPiece}
+			</div>
+		)
+	}
 }
