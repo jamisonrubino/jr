@@ -15,12 +15,26 @@ class App extends Component {
 			selectedNavItem: 'home',
 			size: 'lg',
 			servicesSelection: false,
+			contactSVG: []
 		}
+		this.contactArr = [
+			['Email', 'jamison.rubino@gmail.com', 'mailto: jamison.rubino@gmail.com', true],
+			['LinkedIn', '/in/jamison-rubino-98545a133/', 'https://linkedin.com/in/jamison-rubino-98545a133/'],
+			['Github', 'jamisonrubino', 'https://github.com/jamisonrubino'],
+			['Codewars', 'jamisonrubino', 'https://www.codewars.com/users/jamisonrubino']
+		];
+		this.contactSVG = [...Array(this.contactArr.length)];
 	}
 
 	componentDidMount() {
 		window.addEventListener('resize', this.resize)
 		setTimeout(this.resize(), 1000)
+
+		this.asyncForEach(this.contactArr, async (item, i, arr) => {
+			await this.fetchSVG(item[0].toLowerCase(), i)
+		}).then(_ =>
+			this.setState({ contactSVG: this.contactSVG })
+		);
 	}
 
 	componentDidUpdate(prevProps) {
@@ -41,6 +55,17 @@ class App extends Component {
 	}
 
 	contactFill = servicesSelection => this.setState({ servicesSelection })
+
+	asyncForEach = async (arr, callback) => {
+		for (let i = 0; i < arr.length; i++)
+			await callback(arr[i], i, arr);
+	}
+
+	fetchSVG = async (site, i, arr) => {
+		await fetch(`/img/contact/${site}`)
+			.then(res => res.text())
+			.then(text => this.contactSVG[i] = text);
+	}
 
 	setPortfolioItemSelected = (closed = false, path = null) => {
 		path = path || this.props.location.pathname.split('/').filter(x => x.length > 0)
@@ -64,8 +89,11 @@ class App extends Component {
 			ContactWithProps = props => (
 				<Contact
 					{...props}
-					size={this.state.size}
+					asyncForEach={this.asyncForEach}
+					contactArr={this.contactArr}
 					servicesSelection={this.state.servicesSelection}
+					size={this.state.size}
+					svg={this.state.contactSVG}
 				/>
 			)
 

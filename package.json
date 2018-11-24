@@ -4,6 +4,7 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
+    "fs": "0.0.1-security",
     "jquery": "^3.3.1",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
