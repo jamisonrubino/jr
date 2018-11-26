@@ -10,12 +10,13 @@ export default class Portfolio extends Component {
 			itemSelected: this.props.itemSelected,
 			pieceIndex: null
 		}
+		this.p = JSON.parse(JSON.stringify(portfolioData.portfolioPieces))
 	}
 
 	componentDidMount() {
 		if (this.props.match.params.piece) {
 			this.setState({
-				pieceIndex: portfolioData.portfolioPieces.findIndex(piece => piece.slug === this.props.match.params.piece)
+				pieceIndex: this.p.findIndex(piece => piece.slug === this.props.match.params.piece)
 			})
 		}
 	}
@@ -30,8 +31,7 @@ export default class Portfolio extends Component {
 	}
 
 	render() {
-		//lastRow = (i, arr) => (i >= arr.length - 1 - ((arr.length - 1) % 3) ? { marginBottom: 0 } : {}),
-		const pData = JSON.parse(JSON.stringify(portfolioData.portfolioPieces)),
+		const pData = this.p,
 			links = pData.map((pc, i, arr) => {
 				let title = pc.name.slice(0).replace(/([a-z])([A-Z])/g, "$1 $2")
 				return (
@@ -61,7 +61,8 @@ export default class Portfolio extends Component {
 						</Link>
 					</div>
 				)
-			})
+			}),
+			PortfolioList = () => <div className="portfolio__ul__wrap">{links}</div>
 
 		let portfolioPiece, portfolioSource
 
@@ -84,15 +85,13 @@ export default class Portfolio extends Component {
 					className="portfolio__source"
 					target="_blank"
 					rel="noopener noreferrer"
-				>
-					Portfolio Source
-				</a>
+				>Portfolio Source</a>
 			)
 		}
 
 		return (
 			<div className={'div__portfolio' + (this.state.itemSelected ? ' item__selected' : '')}>
-				<div className="portfolio__ul__wrap">{links}</div>
+				<PortfolioList />
 				{portfolioSource}
 				{portfolioPiece}
 			</div>

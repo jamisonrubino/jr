@@ -7,10 +7,10 @@ export default class Contact extends Component {
 			submitted: false,
 			error: false,
 			itemSize: null,
+			message: null,
 			servicesSelection: [],
 			textareaText: ''
 		}
-		this.contactArr = this.props.contactArr.slice(0);
 	}
 
 	componentDidMount() {
@@ -25,22 +25,17 @@ export default class Contact extends Component {
 		if (this.props.location.state) this.servicesSelection()
 	}
 
-	asyncForEach = async (arr, callback) => {
-		for (let i = 0; i < arr.length; i++)
-			await callback(arr[i], i, arr);
-	}
-
 	handleFormSubmit = e => {
 		e.preventDefault()
-		let alert = document.querySelector('.alert')
+		let submitted = true,
+			message,
+			error
 
 		const email = document.getElementsByName('email')[0],
 			firstName = document.getElementsByName('firstname')[0],
 			lastName = document.getElementsByName('lastname')[0],
 			subject = document.getElementsByName('subject')[0],
 			body = document.getElementsByName('body')[0]
-
-		console.log(email, firstName, lastName, subject, body)
 
 		if (email.value.length > 0 && firstName.value.length > 0 && lastName.value.length > 0 && subject.value.length > 0 && body.value.length > 0) {
 			fetch('/contact_submit', {
@@ -57,19 +52,28 @@ export default class Contact extends Component {
 					body: body.value
 				})
 			})
+				.then(res => res.json())
+				.then(json => {
+					({ message, submitted } = json)
+					error = false
+				})
+				.catch(err => {
+					message = `Sorry, something went wrong. Contact me by <a href="mailto: jamison.rubino.com;" target="_blank" rel="noopener noreferrer" style="color: gold;">email</a> instead.`
+					submitted = false
+					error = true
+				})
+				.then(() => this.setState({ error, message, submitted }))
 
 			email.value = ''
 			firstName.value = ''
 			lastName.value = ''
 			subject.value = ''
-			body.innerHTML = ''
+			body.value = ''
 
-			this.setState({ submitted: true }, () => (alert.innerHTML = 'Success! Your message was delivered.'))
 		} else {
-			this.setState(
-				{ error: true, submitted: false },
-				() => (alert.innerHTML = 'Error: please ensure all form fields are filled.')
-			)
+			error = true
+			message = 'Error: please ensure all form fields are filled.'
+			this.setState({ error, message, submitted })
 		}
 	}
 
@@ -150,7 +154,26 @@ export default class Contact extends Component {
 					</div>
 				</div>
 			)},
-			items = this.contactArr.map((item, i) => <ContactItem item={item} index={i} key={i} />),
+			items = this.props.contactArr.map((item, i) => <ContactItem item={item} index={i} key={i} />),
+			ContactItems = _ => <div className="contact__items">{items}</div>,
+			AlertX = _ => (<a className='alert__x' onClick={ ()=>this.setState({ error: false, submitted: false, message: null }) }>✕</a>),
+			Alert = props => (
+				<div className='alert__wrap'>
+					<span
+						className={
+							'alert' +
+								(props.s
+									? props.err
+										? ' failure'
+										: ' success'
+									: props.err
+										? ' failure'
+										: '')
+						}
+						dangerouslySetInnerHTML={{ __html: this.state.message }}
+					/>
+					<AlertX />
+				</div>),
 			ContactForm = props => (
 				<form method="post" action="/contact_submit">
 					<input type="email" name="email" placeholder="Email" className="form-control" />
@@ -197,19 +220,10 @@ export default class Contact extends Component {
 				</div>
 			)
 
-		let alertStyle
-		if (this.state.submitted === true) {
-			alertStyle = ' success'
-		} else if (this.state.error === false) {
-			alertStyle = ''
-		} else {
-			alertStyle = ' failure'
-		}
-
 		return (
 			<div className="div__contact">
-				<div className="contact__items">{items}</div>
-				<div className={'alert' + alertStyle} />
+				<ContactItems />
+				<Alert err={this.state.error} s={this.state.submitted} />
 				<ContactForm services={this.state.contactServices} />
 				<FootNote />
 			</div>

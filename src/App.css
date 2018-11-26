@@ -861,11 +861,11 @@ section.education {
 }
 
 .portfolio__item__body section::after {
-	content: "";
+	content: '';
 	display: block;
 	width: 740px;
 	height: 500px;
-	margin:  -503px 0 34px calc(50% - 745px / 2 + 66px);
+	margin: -503px 0 34px calc(50% - 745px / 2 + 66px);
 	transform: skewX(-14deg);
 	background-image: linear-gradient(to top, rgba(20, 20, 26, 0.65) 15%, rgba(20, 20, 26, 0.05) 36%, transparent 65%);
 	filter: blur(4px);
@@ -1473,9 +1473,17 @@ h3.gray {
 	fill: #ad2c27;
 }
 
+.alert__wrap {
+	position: relative;
+	padding: 0;
+	margin: 0;
+	overflow: auto;
+}
+
 .alert {
 	padding: 0;
 	margin: 0;
+	display: block;
 }
 
 .success,
@@ -1494,6 +1502,23 @@ h3.gray {
 	background: var(--red);
 }
 
+.alert__x {
+	position: absolute;
+	right: 7px;
+	top: 6px;
+	padding: 1px 7px 3px 7px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.2);
+	font-size: 0.8em;
+	color: rgba(255, 255, 255, 0.85) !important;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.alert__x:hover {
+	background: rgba(255, 255, 255, 0.3);
+	color: rgba(255, 255, 255, 1) !important;
+}
 
 /* --------- UNIVERSAL CLASSES ---------- */
 .hidden {
@@ -1622,7 +1647,7 @@ h3.gray {
 	.portfolio__item__body section::after {
 		width: 475px;
 		height: 360px;
-		margin:  -363px 0 34px calc(50% - 480px / 2 + 49px);
+		margin: -363px 0 34px calc(50% - 480px / 2 + 49px);
 	}
 
 	.carousel__wrap {
@@ -1883,7 +1908,7 @@ h3.gray {
 	.portfolio__item__body section::after {
 		width: 355px;
 		height: 240px;
-		margin:  -243px 0 34px calc(50% - 360px / 2 + 36px);
+		margin: -243px 0 34px calc(50% - 360px / 2 + 36px);
 	}
 
 	.carousel__wrap {
@@ -2006,5 +2031,12 @@ h3.gray {
 
 	.div__about a {
 		font-size: 1em;
+	}
+
+	.alert__x {
+		right: 6px;
+		top: 6px;
+		padding: 0 5px 2px 5px;
+		font-size: 0.65em;
 	}
 }

@@ -90,7 +90,7 @@ class App extends Component {
 				<Contact
 					{...props}
 					asyncForEach={this.asyncForEach}
-					contactArr={this.contactArr}
+					contactArr={this.contactArr.slice(0)}
 					servicesSelection={this.state.servicesSelection}
 					size={this.state.size}
 					svg={this.state.contactSVG}
