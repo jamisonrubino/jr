@@ -914,6 +914,7 @@ section.education {
 	border-bottom: 1px solid rgba(20, 20, 20, 0.75);
 	box-shadow: 130px -80px 16px -90px rgba(20, 20, 26, 0.2);
 	z-index: 3;
+	background: rgba(52, 56, 64, 0.8);
 }
 
 .carousel {
@@ -1476,7 +1477,7 @@ h3.gray {
 .alert__wrap {
 	position: relative;
 	padding: 0;
-	margin: 0;
+	margin: 0 0 15px 0;
 	overflow: auto;
 }
 
@@ -1486,9 +1487,19 @@ h3.gray {
 	display: block;
 }
 
+.message__backup {
+	padding: 15px;
+	border-radius: 0 0 0.25rem 0.25rem;
+	font-weight: 600;
+	color: var(--gray-dark);
+}
+
+.alert.failure ~ .message__backup {
+	background: rgba(220,53,69,0.26);
+}
+
 .success,
 .failure {
-	margin-bottom: 15px;
 	padding: 5px 0;
 }
 

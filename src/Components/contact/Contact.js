@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
-
+import { ContactItem } from './ContactItem'
+import { FootNote } from './FootNote'
+import { ContactForm } from './ContactForm'
 export default class Contact extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			submitted: false,
 			error: false,
 			itemSize: null,
 			message: null,
+			messageBackup: null,
 			servicesSelection: [],
+			submitted: false,
 			textareaText: ''
 		}
 	}
@@ -21,7 +24,7 @@ export default class Contact extends Component {
 		}
 		this.setState({
 			itemSize: this.sizes[this.props.size]
-		});
+		})
 		if (this.props.location.state) this.servicesSelection()
 	}
 
@@ -35,26 +38,29 @@ export default class Contact extends Component {
 			firstName = document.getElementsByName('firstname')[0],
 			lastName = document.getElementsByName('lastname')[0],
 			subject = document.getElementsByName('subject')[0],
-			body = document.getElementsByName('body')[0]
+			body = document.getElementsByName('body')[0],
+			vals = {
+				email: email.value,
+				firstName: firstName.value,
+				lastName: lastName.value,
+				subject: subject.value,
+				body: body.value
+			},
+			filled = Object.values(vals).filter(v => !v).length === 0,
+			messageBackup = vals.body
 
-		if (email.value.length > 0 && firstName.value.length > 0 && lastName.value.length > 0 && subject.value.length > 0 && body.value.length > 0) {
+		if (filled) {
 			fetch('/contact_submit', {
 				method: 'POST',
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify({
-					email: email.value,
-					firstName: firstName.value,
-					lastName: lastName.value,
-					subject: subject.value,
-					body: body.value
-				})
+				body: JSON.stringify(vals)
 			})
 				.then(res => res.json())
 				.then(json => {
-					({ message, submitted } = json)
+					;({ message, submitted } = json)
 					error = false
 				})
 				.catch(err => {
@@ -62,14 +68,14 @@ export default class Contact extends Component {
 					submitted = false
 					error = true
 				})
-				.then(() => this.setState({ error, message, submitted }))
-
-			email.value = ''
-			firstName.value = ''
-			lastName.value = ''
-			subject.value = ''
-			body.value = ''
-
+				.then(() => this.setState({ error, message, submitted, messageBackup },
+					()=>{
+						email.value = ''
+						firstName.value = ''
+						lastName.value = ''
+						subject.value = ''
+						body.value = ''
+					}))
 		} else {
 			error = true
 			message = 'Error: please ensure all form fields are filled.'
@@ -91,19 +97,20 @@ export default class Contact extends Component {
 								? ' for a project using '
 								: ' for a project'
 							: s[1].length > 0
-								? 'a project using '
-								: ''
-				a.map((x, i) =>
-						textareaText +=
+							? 'a project using '
+							: ''
+				a.map(
+					(x, i) =>
+						(textareaText +=
 							a.length === 1
 								? j === a.length - 1
 									? `${x}`
 									: `${x} `
 								: i === a.length - 1
-									? `and ${x}`
-									: a.length < 3 || i === a.length - 2
-										? `${x} `
-										: `${x}, `
+								? `and ${x}`
+								: a.length < 3 || i === a.length - 2
+								? `${x} `
+								: `${x}, `)
 				)
 				if (j > 0) textareaText += '.'
 			}
@@ -113,118 +120,51 @@ export default class Contact extends Component {
 	}
 
 	render() {
-		const ContactItem = props => {
+		const ContactItems = props => {
+			const items = props.contactArr.map((item, i) => (
+				<ContactItem
+					item={item}
+					size={this.state.size}
+					itemSize={this.state.itemSize}
+					svg={this.props.svg[i]}
+					index={i}
+					key={i}
+				/>
+			))
+			return <div className="contact__items">{items}</div>
+		}
+
+		const MessageBackup = props => (props.message ? <div className="message__backup">{props.message}</div> : null)
+
+		const Alert = props => {
+			let alertClass = 'alert' + (props.s ? (props.err ? ' failure' : ' success') : props.err ? ' failure' : '')
 			return (
-				<div className={'contact__menu--' + props.item[0].toLowerCase()}>
-					<div className="contact__menu__item__wrapper">
-						<div className="contact__menu__info">
-							<span className="contact__menu__info--info">
-								<a href={props.item[2]} target={props.item[3] ? '' : '_blank'} rel="noopener noreferrer">
-									{props.item[0] === 'Email' && this.props.size === 'sm'
-										? props.item[1].slice(0, props.item[1].indexOf('@')) +
-										  '\n' +
-										  props.item[1].slice(props.item[1].indexOf('@'))
-										: props.item[1]}
-								</a>
-							</span>
-							<span
-								className="contact__menu__info--back"
-								onClick={() =>
-									(document.querySelector(
-										'.contact__menu--' + props.item[0].toLowerCase() + ' .contact__menu__item__wrapper'
-									).style.marginLeft = `-${this.state.itemSize}px`)
-								}
-							>
-								›
-							</span>
-						</div>
-						<div
-							className="contact__menu__item"
-							onClick={() =>
-								(document.querySelector(
-									'.contact__menu--' + props.item[0].toLowerCase() + ' .contact__menu__item__wrapper'
-								).style.marginLeft = '0')
-							}
-						>
-							<span className="svg" dangerouslySetInnerHTML={{ __html: this.props.svg[props.index] }} />
-							<a href="" onClick={e => e.preventDefault()}>
-								{props.item[0]}
-							</a>
-						</div>
-					</div>
-				</div>
-			)},
-			items = this.props.contactArr.map((item, i) => <ContactItem item={item} index={i} key={i} />),
-			ContactItems = _ => <div className="contact__items">{items}</div>,
-			AlertX = _ => (<a className='alert__x' onClick={ ()=>this.setState({ error: false, submitted: false, message: null }) }>✕</a>),
-			Alert = props => (
-				<div className='alert__wrap'>
+				<div className="alert__wrap">
 					<span
-						className={
-							'alert' +
-								(props.s
-									? props.err
-										? ' failure'
-										: ' success'
-									: props.err
-										? ' failure'
-										: '')
-						}
+						className={alertClass}
+						style={this.state.messageBackup ? { borderRadius: '0.25rem 0.25rem 0 0' } : {}}
 						dangerouslySetInnerHTML={{ __html: this.state.message }}
 					/>
-					<AlertX />
-				</div>),
-			ContactForm = props => (
-				<form method="post" action="/contact_submit">
-					<input type="email" name="email" placeholder="Email" className="form-control" />
-					<input type="text" name="firstname" placeholder="First Name" className="form-control half" />
-					<input type="text" name="lastname" placeholder="Last Name" className="form-control half" />
-					<input type="text" name="subject" placeholder="Subject" className="form-control" />
-					<textarea
-						name="body"
-						placeholder="Write your message here"
-						cols="60"
-						rows="8"
-						className="form-control"
-						defaultValue={this.state.textareaText}
-					/>
-					<input
-						type="submit"
-						value="Submit"
-						className="btn btn-primary btn-lg btn-block"
-						onClick={this.handleFormSubmit}
-					/>
-				</form>
-			),
-			FootNote = _ => (
-				<div className="footnote">
-					<div>
-						Icons made by{' '}
-						<a href="https://www.flaticon.com/authors/epiccoders" title="EpicCoders">
-							EpicCoders
-						</a>{' '}
-						from{' '}
-						<a href="https://www.flaticon.com/" title="Flaticon">
-							www.flaticon.com
-						</a>{' '}
-						is licensed by{' '}
-						<a
-							href="http://creativecommons.org/licenses/by/3.0/"
-							title="Creative Commons BY 3.0"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							CC 3.0 BY
-						</a>
-					</div>
+					<a
+						className="alert__x"
+						onClick={() => this.setState({ error: false, submitted: false, message: null, messageBackup: null })}
+					>
+						✕
+					</a>
+					<MessageBackup message={this.state.messageBackup} />
 				</div>
 			)
+		}
 
 		return (
 			<div className="div__contact">
-				<ContactItems />
+				<ContactItems contactArr={this.props.contactArr} />
 				<Alert err={this.state.error} s={this.state.submitted} />
-				<ContactForm services={this.state.contactServices} />
+				<ContactForm
+					services={this.state.contactServices}
+					textareaText={this.state.textareaText}
+					handleFormSubmit={this.handleFormSubmit}
+				/>
 				<FootNote />
 			</div>
 		)

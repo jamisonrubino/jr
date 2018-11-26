@@ -31,19 +31,23 @@ export default class Portfolio extends Component {
 	}
 
 	render() {
-		const pData = this.p,
-			links = pData.map((pc, i, arr) => {
-				let title = pc.name.slice(0).replace(/([a-z])([A-Z])/g, "$1 $2")
+		const pData = this.p
+		const PortfolioList = () => {
+			const links = pData.map((pc, i, arr) => {
+				let title = pc.name.slice(0).replace(/([a-z])([A-Z])/g, "$1 $2"),
+				style = {
+					portfolioLiWrapper: 'portfolio__li__wrapper' + (this.state.pieceIndex !== null
+							? (i > this.state.pieceIndex + (2 - (this.state.pieceIndex % 3))
+								? ' hidden'
+								: '')
+							: ''),
+					portfolioLiTitle: 'portfolio__li__title' + (this.state.pieceIndex === i ? '--selected' : ''),
+					portfolioLi: 'portfolio__li' + (this.state.pieceIndex === i ? '--selected' : '')
+				}
+
 				return (
 					<div
-						className={
-							'portfolio__li__wrapper' +
-							(this.state.pieceIndex !== null
-								? i > this.state.pieceIndex + (2 - (this.state.pieceIndex % 3))
-									? ' hidden'
-									: ''
-								: '')
-						}
+						className={style.portfolioLiWrapper}
 						onClick={_ => (this.state.pieceIndex !== i ? this.pieceIndex(i) : null)}
 						key={i}
 					>
@@ -52,17 +56,18 @@ export default class Portfolio extends Component {
 							onClick={_ => this.props.setItemSelected(true)}
 						>
 							<li
-								className={'portfolio__li' + (this.state.pieceIndex === i ? '--selected' : '')}
+								className={style.portfolioLi}
 								style={pc.style}
 							/>
-							<span className={'portfolio__li__title' + (this.state.pieceIndex === i ? '--selected' : '')}>
+							<span className={style.portfolioLiTitle}>
 								{title}
 							</span>
 						</Link>
 					</div>
 				)
-			}),
-			PortfolioList = () => <div className="portfolio__ul__wrap">{links}</div>
+			})
+			return <div className="portfolio__ul__wrap">{links}</div>
+		}
 
 		let portfolioPiece, portfolioSource
 
