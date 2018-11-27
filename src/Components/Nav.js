@@ -8,6 +8,7 @@ export default class Nav extends Component {
 			headerTop: true,
 		}
 		this.headerTimeout = null
+		this.links = ["portfolio", "services", "contact"]
 	}
 
 	componentDidMount() {
@@ -32,35 +33,45 @@ export default class Nav extends Component {
 		const path = this.props.location.pathname.split('/').filter(x => x.length > 0)[0]
 		let sm = this.props.size === 'sm' && !this.state.headerTop,
 			home = this.props.location.pathname.length <= 1
+
+		const HeaderHome = props => (
+			<div className="header__home">
+				<h1 className="header__home__link">
+					<Link to="/" style={home && sm ? { color: 'gold' } : {}}>{`${
+						sm ? 'JR' : 'Jamison Rubino'
+					}`}</Link>
+				</h1>
+				<span
+					className={'header__home__tagline' + (home ? '--selected' : '')}
+					style={sm ? { display: 'none' } : {}}
+				>
+					JUNIOR WEB DEVELOPER
+				</span>
+			</div>
+		)
+
+		const NavLinks = props => {
+			const Links = () => props.links.map((link, i)=>
+				<Link to={`/${link}/`}>
+					<li className={path === link ? 'selected' : ''}>
+						{ link.split(' ').map(w=>w[0].toUpperCase() + w.slice(1)).join(' ') }
+					</li>
+				</Link>
+			)
+			return (
+				<nav>
+					<ul>
+						<Links />
+					</ul>
+				</nav>
+			)
+		}
+
 		return (
 			<div className="header__wrap" style={this.state.headerTop ? {} : { paddingTop: '130px' }}>
 				<header className={'header' + (this.state.headerTop ? '' : '--fixed')}>
-					<div className="header__home">
-						<h1 className="header__home__link">
-							<Link to="/" style={home && sm ? { color: 'gold' } : {}}>{`${
-								sm ? 'JR' : 'Jamison Rubino'
-							}`}</Link>
-						</h1>
-						<span
-							className={'header__home__tagline' + (home ? '--selected' : '')}
-							style={sm ? { display: 'none' } : {}}
-						>
-							JUNIOR WEB DEVELOPER
-						</span>
-					</div>
-					<nav>
-						<ul>
-							<Link to="/portfolio/">
-								<li className={path === 'portfolio' ? 'selected' : ''}>Portfolio</li>
-							</Link>
-							<Link to="/services/">
-								<li className={path === 'services' ? 'selected' : ''}>Services</li>
-							</Link>
-							<Link to="/contact/">
-								<li className={path === 'contact' ? 'selected' : ''}>Contact</li>
-							</Link>
-						</ul>
-					</nav>
+					<HeaderHome />
+					<NavLinks links={this.links} />
 				</header>
 			</div>
 		)
