@@ -36,7 +36,7 @@ export default class Portfolio extends Component {
 			const links = pData.map((pc, i, arr) => {
 				let title = pc.name.slice(0).replace(/([a-z])([A-Z])/g, "$1 $2"),
 				classes = {
-					portfolioLiWrapper: 'portfolio__li__wrapper' + (this.state.pieceIndex !== null
+					portfolioLiwrap: 'portfolio__li__wrap' + (this.state.pieceIndex !== null
 							? (i > this.state.pieceIndex + (2 - (this.state.pieceIndex % 3))
 								? ' hidden'
 								: '')
@@ -47,7 +47,7 @@ export default class Portfolio extends Component {
 
 				return (
 					<div
-						className={classes.portfolioLiWrapper}
+						className={classes.portfolioLiwrap}
 						onClick={_ => (this.state.pieceIndex !== i ? this.pieceIndex(i) : null)}
 						key={i}
 					>

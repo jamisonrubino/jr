@@ -47,8 +47,8 @@ export default class Contact extends Component {
         subject: subject.value,
         body: body.value
       },
-      filled = Object.values(vals).filter(v => !v).length === 0,
-      messageBackup = vals.body
+      filled = Object.values(vals).filter(v => !v).length === 0
+    let messageBackup = vals.body
 
     if (filled) {
       fetch('/contact_submit', {
@@ -69,15 +69,16 @@ export default class Contact extends Component {
           submitted = false
           error = true
         })
-        .then(() =>
-          this.setState({ error, message, submitted, messageBackup }, () => {
+        .then(() => {
+          messageBackup = error ? messageBackup : null
+          this.setState({ error, message, messageBackup, submitted }, () => {
             email.value = ''
             firstName.value = ''
             lastName.value = ''
             subject.value = ''
             body.value = ''
           })
-        )
+        })
     } else {
       error = true
       message = 'Error: please ensure all form fields are filled.'

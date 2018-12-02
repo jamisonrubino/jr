@@ -2,7 +2,7 @@ import React from 'react';
 export function ContactItem(props) {
   return (
     <div className={'contact__menu--' + props.item[0].toLowerCase()}>
-      <div className="contact__menu__item__wrapper">
+      <div className="contact__menu__item__wrap">
         <div className="contact__menu__info">
           <span className="contact__menu__info--info">
             <a href={props.item[2]} target={props.item[3] ? '' : '_blank'} rel="noopener noreferrer">
@@ -17,7 +17,7 @@ export function ContactItem(props) {
             className="contact__menu__info--back"
             onClick={() =>
               (document.querySelector(
-                '.contact__menu--' + props.item[0].toLowerCase() + ' .contact__menu__item__wrapper'
+                '.contact__menu--' + props.item[0].toLowerCase() + ' .contact__menu__item__wrap'
               ).style.marginLeft = `-${props.itemSize}px`)
             }
           >
@@ -28,7 +28,7 @@ export function ContactItem(props) {
           className="contact__menu__item"
           onClick={() =>
             (document.querySelector(
-              '.contact__menu--' + props.item[0].toLowerCase() + ' .contact__menu__item__wrapper'
+              '.contact__menu--' + props.item[0].toLowerCase() + ' .contact__menu__item__wrap'
             ).style.marginLeft = '0')
           }
         >
