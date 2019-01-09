@@ -17,7 +17,7 @@ export default {
 		{
 			slug: 'frontend',
 			name: 'Frontend',
-			items: ['HTML', 'CSS', 'SCSS/Sass', 'Bootstrap', 'JavaScript', 'JQuery', 'React', 'Angular'],
+			items: ['HTML', 'CSS', 'SCSS/Sass', 'Bootstrap', 'JavaScript', 'JQuery', 'React', 'Angular', 'D3'],
 			color: 'indigo'
 		},
 		{

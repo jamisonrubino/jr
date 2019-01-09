@@ -33,7 +33,7 @@ export default {
 		{
 			path: [
 				'In grade school, design and writing helped me express myself. I carried this to university, where I studied art, psychology and English.',
-				'Over time, my focus shifted outwards. I found myself drawn to web development as a platform for expression. For that, I put university on pause.',
+				'Over time, my focus shifted outward. I found myself drawn to web development as a platform for expression. For that, I put university on pause.',
 				'With help from TeamTreehouse, I built my first full-stack websites with HTML, CSS, Javascript, PHP and SQL.',
 				'For a more professional foundation, I found formal education at Bloc. Bloc appealed to my learning style with remote work, flexible hours and regular mentorship. With Bloc, I refined my abilities with Javascript, learned common design patterns in React and Angular, built and implemented RESTful APIs, and was introduced to Ruby on Rails.',
 				"Now, after graduation, I'm open to contract work.",

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ContactItem } from './ContactItem'
 import { FootNote } from './FootNote'
-import { ContactForm } from './ContactForm'
+import ContactForm from './ContactForm'
 import { Alert } from './Alert'
 export default class Contact extends Component {
   constructor(props) {
@@ -27,6 +27,8 @@ export default class Contact extends Component {
       itemSize: this.sizes[this.props.size]
     })
     if (this.props.location.state) this.servicesSelection()
+    if (this.state.textareaText.length > 0)
+      document.querySelector('textarea').value = this.state.textareaText
   }
 
   handleFormSubmit = e => {
@@ -91,7 +93,7 @@ export default class Contact extends Component {
       let textareaText = 'Hi! I want help with ',
         s = this.props.location.state.services
       s = [[...s[0]], [...s[1], ...s[2], ...s[3]]]
-
+      console.log(s)
       function parseServices(a, j) {
         if (j > 0)
           textareaText +=
@@ -100,21 +102,21 @@ export default class Contact extends Component {
                 ? ' for a project using '
                 : ' for a project'
               : s[1].length > 0
-              ? 'a project using '
-              : ''
-        a.map(
-          (x, i) =>
-            (textareaText +=
-              a.length === 1
-                ? j === a.length - 1
+                ? 'a project using '
+                : ''
+        console.log(a, a.length)
+        if (a.length > 0)
+          a.map(
+            (x, i) =>
+              (textareaText +=
+                a.length === 1
                   ? `${x}`
-                  : `${x} `
-                : i === a.length - 1
-                ? `and ${x}`
-                : a.length < 3 || i === a.length - 2
-                ? `${x} `
-                : `${x}, `)
-        )
+                  : i === a.length - 1
+                    ? `and ${x}`
+                    : a.length < 3 || i === a.length - 2
+                      ? `${x} `
+                      : `${x}, `)
+          )
         if (j > 0) textareaText += '.'
       }
       s.map((arr, i) => parseServices(arr, i))
