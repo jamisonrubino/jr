@@ -289,6 +289,7 @@ nav ul li.selected {
 	width: 60%;
 	margin: auto;
 	position: relative;
+	border-radius: 3px 3px 0 0;
 }
 
 .title__h2 {
@@ -320,16 +321,17 @@ nav ul li.selected {
 	color: #eee;
 	color: rgb(95, 121, 158);
 	background: rgba(52, 58, 64, 0.98);
-	padding: 60px 45px 45px;
+	padding: 75px 45px 45px;
 	box-shadow: 0 0 150px 0 rgba(220, 220, 220, 0.15);
+	border-top: 7px solid rgba(95, 121, 158, 1);
 }
 
 .title__skills__content .title__skills__heading {
 	color: rgb(52, 58, 64);
 	left: calc(50% - 72.875px);
-	top: -28.8px;
+	top: -32.3px;
 	font-weight: 700;
-	background: rgba(95, 121, 158, 0.9);
+	background: rgba(95, 121, 158, 1);
 	padding: 0 15px;
 }
 
@@ -415,6 +417,7 @@ section.education {
 	background: rgba(255, 255, 255, 0.82);
 	color: rgb(134,155,95);
 	font-weight: 700;
+	border-top: 7px solid rgba(173, 188, 146, 1);
 }
 
 .education__content b {
@@ -424,9 +427,9 @@ section.education {
 .education__content .education__heading {
 	color: white;
 	left: calc(50% - 119.75px);
-	top: -28.8px;
+	top: -32.3px;
 	padding: 0 15px;
-	background: rgba(173, 188, 146, 0.9);
+	background: rgba(173, 188, 146, 1);
 	text-shadow: 0 0 5px rgba(171,183,194,0.5);
 }
 
@@ -452,14 +455,15 @@ section.education {
 	color: #ffe;
 	font-size: 1.2em;
 	box-shadow: 0 0 200px 0 rgba(225, 255, 240, 0.2);
+	border-top: 7px solid rgba(220, 230, 225, 1);
 }
 
 .personal__path__content .personal__path__heading {
 	color: #0a2d14;
 	font-weight: 600;
 	left: calc(50% - 122.375px);
-	top: -34.55835px;
-	background: rgba(220, 230, 225, 0.85);
+	top: -38.05835px;
+	background: rgba(220, 230, 225, 1);
 	padding: 0 15px;
 	margin: 0;
 }
@@ -875,7 +879,7 @@ section.education {
 	height: 500px;
 	margin: -503px 0 34px calc(50% - 745px / 2 + 66px);
 	transform: skewX(-14deg);
-	background-image: linear-gradient(to top, rgba(20, 20, 26, 0.65) 15%, rgba(20, 20, 26, 0.05) 33%, transparent 34%, transparent 65%);
+	background-image: linear-gradient(to top, rgba(20, 20, 26, 0.65) 15%, rgba(20, 20, 26, 0.1) 35%, transparent 36%, transparent 65%);
 	filter: blur(4px);
 	z-index: 2;
 }
@@ -920,7 +924,7 @@ section.education {
 	border-left: 1px solid rgba(255, 255, 255, 0.4);
 	border-right: 1px solid rgba(20, 20, 20, 0.75);
 	border-bottom: 1px solid rgba(20, 20, 20, 0.75);
-	box-shadow: 130px -72px 16px -90px rgba(20, 20, 26, 0.2);
+	box-shadow: 130px -87px 12px -90px rgba(20, 20, 26, 0.2);
 	z-index: 3;
 	background: rgba(52, 56, 64, 0.8);
 }
@@ -1177,7 +1181,8 @@ section.education {
 .blue,
 .indigo,
 .orange,
-.gray {
+.gray,
+.bluegray {
 	padding: 0 4px;
 	height: fit-content;
 	font-weight: bold;
@@ -1193,6 +1198,10 @@ section.education {
 
 .gray {
 	color: var(--gray);
+}
+
+.bluegray {
+	color: rgb(95, 121, 158);
 }
 
 .orange {
@@ -1462,6 +1471,10 @@ h3.gray {
 	padding: 0 0 7px 8px;
 	cursor: pointer;
 	width: 25px;
+}
+
+.contact__menu--phone .contact__menu__info * {
+	color: #91DC5A;
 }
 
 .contact__menu--email .contact__menu__info * {

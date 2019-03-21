@@ -5,7 +5,7 @@ export default {
 			skills: [
 				['Frontend', 'HTML, CSS, JavaScript, jQuery, React, Angular', 'indigo'],
 				['Backend', 'SQL, APIs, PHP, Ruby on Rails, WordPress', 'gray'],
-				['Version Control', 'Github, Heroku', 'blue']
+				['Version Control', 'Github, Heroku', 'bluegray']
 			],
 			style: {
 				backgroundImage:
