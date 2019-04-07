@@ -20,7 +20,6 @@ class App extends Component {
       navRoute: null
     }
     this.contactArr = [
-			['Phone', '(208) 596-4065', 'tel:208-596-4065'],
       ['Email', 'jamison.rubino@gmail.com', 'mailto: jamison.rubino@gmail.com', true],
       [
         'LinkedIn',
@@ -30,6 +29,7 @@ class App extends Component {
       ['Github', 'jamisonrubino', 'https://github.com/jamisonrubino'],
       ['Codewars', 'jamisonrubino', 'https://www.codewars.com/users/jamisonrubino']
     ]
+		//			['Phone', '(208) 596-4065', 'tel:208-596-4065'],
     this.contactSVG = [...Array(this.contactArr.length)]
   }
 
