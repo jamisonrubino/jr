@@ -22,7 +22,8 @@
     "server": "node server.js",
     "build": "react-scripts build && sw-precache --config=sw-precache-config.js",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "debug": "nodemon --inspect ./"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

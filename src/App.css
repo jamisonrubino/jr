@@ -71,7 +71,8 @@ header h1 {
 .header {
 	height: 110px;
 	padding: 20px 20px 20px 20px;
-	background: linear-gradient(to bottom, rgba(52, 58, 64, 0.96), rgba(52, 58, 64, 1));
+	background: linear-gradient(to bottom, rgba(38, 44, 49, 0.96), rgba(38, 44, 49, 1));
+	/* 52, 58, 64 */
 	/* box-shadow: inset -1px -1px 6px rgba(230, 230, 230, 0.05); */
 	border-bottom: 4px solid var(--gray);
 }
@@ -85,7 +86,7 @@ header h1 {
 	z-index: 3;
 	animation: slide-down 0.55s 1;
 	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
-	background: linear-gradient(to bottom, rgba(52, 58, 64, 0.97), #343a40 98%, rgba(255, 255, 255, 0.3) 100%);
+	background: linear-gradient(to bottom, rgba(38, 44, 49, 0.97), rgb(38, 44, 49) 98%, rgba(255, 255, 255, 0.3) 100%);
 }
 
 .header__home {
@@ -451,7 +452,7 @@ section.education {
 	position: relative;
 	padding: 75px 45px 45px;
 	z-index: 2;
-	background: rgba(10, 45, 20, 0.9);
+	background: rgba(10, 45, 20, 0.95);
 	color: #ffe;
 	font-size: 1.2em;
 	box-shadow: 0 0 200px 0 rgba(225, 255, 240, 0.2);
@@ -516,7 +517,7 @@ section.education {
 	border-radius: 50%;
 	width: 50px;
 	height: 50px;
-	box-shadow: 0 0 0 15px rgba(52, 58, 64, 1);
+	box-shadow: 0 0 0 12px rgba(52, 58, 64, 1);
 	cursor: pointer;
 	transition: 0.25s box-shadow, 0.25s opacity;
 	transition-timing-function: cubic-bezier(0.6, 0.1, 0.3, 0.4);
@@ -1284,6 +1285,10 @@ h3.gray {
 	text-align: center;
 }
 
+[class^='services__selected'] [class^='services__item']:hover {
+	text-decoration: line-through;
+}
+
 /* .services__selected__wrap a {
   all: unset;
   flex: 1 0 25px;
@@ -1553,6 +1558,16 @@ h3.gray {
 .alert__x:hover {
 	background: rgba(255, 255, 255, 0.3);
 	color: rgba(255, 255, 255, 1) !important;
+}
+
+
+/* --------- PAY ----------- */
+.div__pay {
+	width: 60%;
+	max-width: 960px;
+	min-width: 720px;
+	margin: 0 auto;
+	height: calc(100vh - 156px);
 }
 
 /* --------- UNIVERSAL CLASSES ---------- */

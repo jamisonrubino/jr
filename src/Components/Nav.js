@@ -9,6 +9,7 @@ export default class Nav extends Component {
     }
     this.headerTimeout = null
     this.links = ['portfolio', 'services', 'contact']
+    //, 'pay'
   }
 
   componentDidMount() {

@@ -6,6 +6,7 @@ import Portfolio from './Components/portfolio/Portfolio'
 import Services from './Components/services/Services'
 import Contact from './Components/contact/Contact'
 import About from './Components/about/About'
+// import Pay from './Components/pay/Pay'
 
 class App extends Component {
   constructor(props) {
@@ -84,10 +85,32 @@ class App extends Component {
     this.setState({ portfolioItemSelected })
   }
 
+  debounce = (func, wait, immediate) => {
+	  var timeout;
+	  return function executedFunction() {
+	    var context = this;
+	    var args = arguments;
+	    var later = function() {
+	      timeout = null;
+	      if (!immediate) func.apply(context, args);
+	    };
+	    var callNow = immediate && !timeout;
+	    clearTimeout(timeout);
+	    timeout = setTimeout(later, wait);
+	    if (callNow) func.apply(context, args);
+	  };
+  };
+
   render() {
     var NavWithRoute = withRouter(props => (
         <Nav {...props} size={this.state.size} changeRoute={this.changeRoute} />
       )),
+      AboutWithProps = props => (
+        <About 
+          {...props} 
+          debounce={this.debounce} 
+        />
+      ),
       PortfolioWithProps = props => (
         <Portfolio
           {...props}
@@ -109,12 +132,21 @@ class App extends Component {
           svg={this.state.contactSVG}
         />
       )
+/* ,
+      PayWithProps = props => (
+        <Pay 
+          {...props} 
+          size={this.state.size}
+        />
+      )
+*/
+//    <Route path="/pay" component={PayWithProps} />
 
     return (
       <div className="App">
         <NavWithRoute />
         <div className="content">
-          <Route exact path="/" component={About} />
+          <Route exact path="/" component={AboutWithProps} />
           <Route path="/portfolio/:piece?" component={PortfolioWithProps} />
           <Route path="/services" component={ServicesWithProps} />
           <Route path="/contact" component={ContactWithProps} />

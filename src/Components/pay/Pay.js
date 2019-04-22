@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Elements, StripeProvider} from 'react-stripe-elements';
+import { Elements, StripeProvider } from 'react-stripe-elements';
 import CheckoutForm from './CheckoutForm';
 
 
@@ -8,23 +8,23 @@ class Pay extends Component {
     super(props)
     this.state = {
     }
-
   }
 
   componentDidMount() {}
   componentDidUpdate(prevProps) {}
 
   render() {
-
     return (
-      <StripeProvider apiKey="pk_test_ohRtWqhSYEIcgdCJJ1ze7wBV">
-        <div className="example">
-          <h1>React Stripe Elements Example</h1>
-          <Elements>
-            <CheckoutForm />
-          </Elements>
-        </div>
-      </StripeProvider>
+      <div className="div__pay">
+        <StripeProvider apiKey="pk_live_i8Rph5MEuY7ORXNiDX9UROCM00MzIwOKrO">
+          <div className="pay__content">
+            <h1>Pay for services</h1>
+            <Elements>
+              <CheckoutForm />
+            </Elements>
+          </div>
+        </StripeProvider>
+      </div>
     )
   }
 }
