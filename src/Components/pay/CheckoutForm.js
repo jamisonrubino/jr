@@ -9,7 +9,7 @@ class CheckoutForm extends Component {
     };
   }
 
-  submit = async ev => {
+  submitCard = async ev => {
     ev.preventDefault();
   /*
     NAMES
@@ -18,16 +18,7 @@ class CheckoutForm extends Component {
       cvc
   */
     let { token } = await this.props.stripe.createToken({ name: "Name" });
-    // let {token} = await this.props.stripe.createToken('bank_account', {
-    //   country: 'US',
-    //   currency: 'usd',
-    //   routing_number: '110000000',
-    //   account_number: '000123456789',
-    //   account_holder_name: 'Jenny Rosen',
-    //   account_holder_type: 'individual',
-    // }).then(function(result) {
-    //   // Handle result.error or result.token
-    // });
+ 
     let response = await fetch("/charge", {
       method: "POST",
       headers: { "Content-Type": "text/plain" },
@@ -37,6 +28,35 @@ class CheckoutForm extends Component {
     if (response.ok) console.log("Purchase Complete!")
   }
 
+  submitBankAccount = async ev => {
+    ev.preventDefault();
+    // var form = document.querySelector('form[name="stripe-bank-account"]');
+    // var bankAccount = {
+    // }
+
+    let { token } = await this.props.stripe.createToken('bank_account', {
+      country: 'US',
+      currency: 'usd',
+      routing_number: '110000000',
+      account_number: '000123456789',
+      account_holder_name: 'Jenny Rosen',
+      account_holder_type: 'individual',
+    }).then(function(result) {
+      // Handle result.error or result.token
+    });
+    let response = await fetch("/charge", {
+      method: "POST",
+      headers: { "Content-Type": "text/plain" },
+      body: token.id
+    });
+
+    if (response.ok) console.log("Purchase Complete!")
+  }
+
+
+  // jquery carousel with two forms
+  // names: stripe-card, stripe-bank-account
+  // look up stripe createToken field names
   render() {
     return (
       <form name="stripe">
@@ -46,7 +66,7 @@ class CheckoutForm extends Component {
             <CardElement style={{base: {fontSize: '24px'}}} />
             <IbanElement style={{base: {fontSize: '24px'}}} />
             <IdealBankElement style={{base: {fontSize: '24px'}}} />
-            <button className="btn btn-success" onClick={this.submit} style={{marginTop: "15px"}}>Send</button>
+            <button className="btn btn-success" onClick={this.submit} style={{marginTop: "15px"}}>Pay</button>
           </div>
         </div>
       </form>

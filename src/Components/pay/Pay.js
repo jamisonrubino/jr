@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Elements, StripeProvider } from 'react-stripe-elements';
 import CheckoutForm from './CheckoutForm';
 
-
 class Pay extends Component {
   constructor(props) {
     super(props)
