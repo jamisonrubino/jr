@@ -45,7 +45,7 @@ export default class Nav extends Component {
 
     const HeaderHome = props => (
       <div className="header__home">
-        <h1 className="header__home__link">
+        <h1 className={"header__home__link" + (this.props.location.pathname !== '/' ? '' : ' selected')}>
           <Link to="/" style={home && sm ? { color: 'gold' } : {}}>{`${
             sm ? 'JR' : 'Jamison Rubino'
           }`}</Link>

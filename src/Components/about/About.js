@@ -17,6 +17,8 @@ export default class About extends Component {
 			window.removeEventListener('touchend', this.handleScroll, false)
 			window.removeEventListener('mousewheel', this.handleScroll, false)
 			window.removeEventListener('unload', this.unload)
+			clearTimeout(this.scrollTimeout)
+			clearTimeout(this.scrollCaptureTimeout)
 		}
 		this.titleSkillsBackgroundStyle = JSON.parse(JSON.stringify(aboutData.aboutSections[0].style))
 		this.educationBackgroundStyle = null
@@ -84,8 +86,8 @@ export default class About extends Component {
 					that.oldScroll = window.pageYOffset
 					that.arrowWrap.remove('pending')
 					if (that.sNum <= 0 && that.state.arrowDown === false) that.setState({ arrowDown: true })
-				}, 800)
-			}, 200)
+				}, 650);
+			}, 350);
 		}
 	}
 

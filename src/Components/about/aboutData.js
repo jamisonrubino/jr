@@ -9,11 +9,10 @@ export default {
 			],
 			style: {
 				backgroundImage:
-					"linear-gradient(to bottom right, rgba(20,20,20,0.8), rgba(0,0,0,0.3)), url('/img/about/skills.jpg')",
+					"linear-gradient(to top right, rgba(108, 117, 125, 0.9) 15%, rgba(108, 117, 125, 0.6) 60%, rgba(0,0,0,0.3)), url('/img/about/skills.jpg')",
 				backgroundSize: '100% auto',
 				backgroundPosition: 'right top',
-				filter: 'contrast(85%) saturate(70%) brightness(100%)',
-				backgroundBlendMode: 'darken'
+				filter: 'contrast(95%) saturate(70%) brightness(110%)'
 			}
 		},
 		{

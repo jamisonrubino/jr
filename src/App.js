@@ -103,12 +103,12 @@ class App extends Component {
 
   render() {
     var NavWithRoute = withRouter(props => (
-        <Nav {...props} size={this.state.size} changeRoute={this.changeRoute} />
+        <Nav {...props} size={this.state.size} changeRoute={this.changeRoute} route={this.state.navRoute} />
       )),
       AboutWithProps = props => (
-        <About 
-          {...props} 
-          debounce={this.debounce} 
+        <About
+          {...props}
+          debounce={this.debounce}
         />
       ),
       PortfolioWithProps = props => (
@@ -134,8 +134,8 @@ class App extends Component {
       )
 /* ,
       PayWithProps = props => (
-        <Pay 
-          {...props} 
+        <Pay
+          {...props}
           size={this.state.size}
         />
       )
