@@ -86,8 +86,8 @@ export default class About extends Component {
 					that.oldScroll = window.pageYOffset
 					that.arrowWrap.remove('pending')
 					if (that.sNum <= 0 && that.state.arrowDown === false) that.setState({ arrowDown: true })
-				}, 650);
-			}, 350);
+				}, 700);
+			}, 300);
 		}
 	}
 
