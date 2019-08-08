@@ -35,7 +35,7 @@ export default {
 				backgroundSize: 'cover',
 				backgroundPosition: 'center'
 			},
-			demo: 'https://letteredhorizon.com',
+			demo: 'https://letteredhorizon.jamisonrubino.com',
 			source: 'https://github.com/jamisonrubino/letteredhorizon'
 		},
 		{
