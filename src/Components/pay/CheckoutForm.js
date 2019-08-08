@@ -5,7 +5,7 @@ class CheckoutForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      complete: false
+      complete: false      
     };
   }
 
@@ -58,17 +58,27 @@ class CheckoutForm extends Component {
   // names: stripe-card, stripe-bank-account
   // look up stripe createToken field names
   render() {
-    return (
-      <form name="stripe">
+    var PayForm = _ => {
+      let cardForm = (
         <div className="form-group">
-          <div className="checkout">
-            <p>Enter your card information to complete your purchase.</p>
-            <CardElement style={{base: {fontSize: '24px'}}} />
+          <CardElement style={{base: {fontSize: '24px'}}} />
+          <button className="btn btn-success" onClick={this.submit} style={{marginTop: "15px"}}>Pay</button>
+        </div>
+      ),
+        bankAccountForm = (
+          <div className="form-group">
             <IbanElement style={{base: {fontSize: '24px'}}} />
             <IdealBankElement style={{base: {fontSize: '24px'}}} />
-            <button className="btn btn-success" onClick={this.submit} style={{marginTop: "15px"}}>Pay</button>
+            <button className="btn btn-success" onClick={this.submitBankAccount} style={{marginTop: "15px"}}>Pay</button>
           </div>
-        </div>
+          );
+      return (this.props.type==="Bank Account" ? bankAccountForm : cardForm);
+    }
+
+    return (
+      <form name="stripe">
+        <p>Enter your card information to complete your purchase.</p>
+        <PayForm />
       </form>
     );
   }

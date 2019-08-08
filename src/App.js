@@ -6,7 +6,7 @@ import Portfolio from './Components/portfolio/Portfolio'
 import Services from './Components/services/Services'
 import Contact from './Components/contact/Contact'
 import About from './Components/about/About'
-// import Pay from './Components/pay/Pay'
+import Pay from './Components/pay/Pay'
 
 class App extends Component {
   constructor(props) {
@@ -18,7 +18,8 @@ class App extends Component {
       servicesSelection: false,
       contactSVG: [],
       prevNavRoute: null,
-      navRoute: null
+      navRoute: null,
+      stripe: null
     }
     this.contactArr = [
       ['Email', 'jamison.rubino@gmail.com', 'mailto: jamison.rubino@gmail.com', true],
@@ -37,6 +38,15 @@ class App extends Component {
   componentDidMount() {
     window.addEventListener('resize', this.resize)
     setTimeout(this.resize(), 1000)
+
+    if (window.Stripe) {
+      this.setState({stripe: window.Stripe('pk_live_i8Rph5MEuY7ORXNiDX9UROCM00MzIwOKrO')});
+    } else {
+      document.querySelector('#stripe-js').addEventListener('load', () => {
+        // Create Stripe instance once Stripe.js loads
+        this.setState({stripe: window.Stripe('pk_live_i8Rph5MEuY7ORXNiDX9UROCM00MzIwOKrO')});
+      });
+    }
 
     this.asyncForEach(this.contactArr, async (item, i, arr) => {
       await this.fetchSVG(item[0].toLowerCase(), i)
@@ -131,17 +141,14 @@ class App extends Component {
           size={this.state.size}
           svg={this.state.contactSVG}
         />
-      )
-/* ,
+      ),
       PayWithProps = props => (
-        <Pay
+        <Pay 
           {...props}
-          size={this.state.size}
+          size={this.state.size} 
+          stripe={this.state.stripe}
         />
       )
-*/
-//    <Route path="/pay" component={PayWithProps} />
-
     return (
       <div className="App">
         <NavWithRoute />
@@ -150,6 +157,7 @@ class App extends Component {
           <Route path="/portfolio/:piece?" component={PortfolioWithProps} />
           <Route path="/services" component={ServicesWithProps} />
           <Route path="/contact" component={ContactWithProps} />
+          <Route path="/pay/:invoice_id?" component={PayWithProps} />
         </div>
       </div>
     )

@@ -2,24 +2,44 @@ import React, { Component } from 'react';
 import { Elements, StripeProvider } from 'react-stripe-elements';
 import CheckoutForm from './CheckoutForm';
 
-class Pay extends Component {
+export default class Pay extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      type: "card"
     }
   }
 
   componentDidMount() {}
   componentDidUpdate(prevProps) {}
 
+  handleTypeTab = e => {
+    e.preventDefault();
+    // this.setState({type: e.target.innerText});
+    console.log(e.target, e.target.innerText);
+  }
+
   render() {
+    var payTabs = ['Card', 'Bank Account'].map((type, i) => (
+      <li className={this.state.type===type.toLowerCase() ? 'selected' : ''} key={`tab-${i}`}>
+        <a href="" onClick={e => this.handleTypeTab(e)}>{type}</a>
+      </li>
+    ));
+    var PayTab = _ => (
+      <ul className="stripe__type__container">
+        {payTabs}
+      </ul>
+    );
     return (
       <div className="div__pay">
-        <StripeProvider apiKey="pk_live_i8Rph5MEuY7ORXNiDX9UROCM00MzIwOKrO">
+        <StripeProvider stripe={this.props.stripe}>
           <div className="pay__content">
             <h1>Pay for services</h1>
+            <PayTab />
             <Elements>
-              <CheckoutForm />
+              <CheckoutForm 
+                type={this.state.type} 
+              />
             </Elements>
           </div>
         </StripeProvider>
@@ -27,4 +47,3 @@ class Pay extends Component {
     )
   }
 }
-export default Pay;
