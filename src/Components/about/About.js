@@ -87,7 +87,7 @@ export default class About extends Component {
 					that.arrowWrap.remove('pending')
 					if (that.sNum <= 0 && that.state.arrowDown === false) that.setState({ arrowDown: true })
 				}, 700);
-			}, 300);
+			}, 500);
 		}
 	}
 
