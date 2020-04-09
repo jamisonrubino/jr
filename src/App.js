@@ -18,8 +18,9 @@ class App extends Component {
       servicesSelection: false,
       contactSVG: [],
       prevNavRoute: null,
-      navRoute: null,
-      stripe: null
+      navRoute: null
+      // unloadAbout: false
+      // stripe: null
     }
     this.contactArr = [
       ['Email', 'jamison.rubino@gmail.com', 'mailto: jamison.rubino@gmail.com', true],
@@ -39,14 +40,14 @@ class App extends Component {
     window.addEventListener('resize', this.resize)
     setTimeout(this.resize(), 1000)
 
-    if (window.Stripe) {
-      this.setState({stripe: window.Stripe('pk_live_i8Rph5MEuY7ORXNiDX9UROCM00MzIwOKrO')});
-    } else {
-      document.querySelector('#stripe-js').addEventListener('load', () => {
-        // Create Stripe instance once Stripe.js loads
-        this.setState({stripe: window.Stripe('pk_live_i8Rph5MEuY7ORXNiDX9UROCM00MzIwOKrO')});
-      });
-    }
+    // if (window.Stripe) {
+    //   this.setState({stripe: window.Stripe('pk_live_i8Rph5MEuY7ORXNiDX9UROCM00MzIwOKrO')});
+    // } else {
+    //   document.querySelector('#stripe-js').addEventListener('load', () => {
+    //     // Create Stripe instance once Stripe.js loads
+    //     this.setState({stripe: window.Stripe('pk_live_i8Rph5MEuY7ORXNiDX9UROCM00MzIwOKrO')});
+    //   });
+    // }
 
     this.asyncForEach(this.contactArr, async (item, i, arr) => {
       await this.fetchSVG(item[0].toLowerCase(), i)
@@ -62,10 +63,13 @@ class App extends Component {
 
   changeRoute = route => {
     if (route !== this.state.prevNavRoute) {
-      this.props.history.replace(`/${route}/`)
-      this.setState({ navRoute: route })
+      var routeStateObj = {navRoute: route}
+      // if (window.location.pathname==="/") routeStateObj.unloadAbout = true
+      this.setState({ ...routeStateObj }, _=>this.props.history.replace(`/${route}/`))
     }
+    // setTimeout(function() {setState({unloadAbout: false})}, 1000)
   }
+
 
   resize = () => {
     if (window.innerWidth <= 840 && window.innerWidth > 516 && this.state.size !== 'md') {
@@ -118,7 +122,7 @@ class App extends Component {
       AboutWithProps = props => (
         <About
           {...props}
-          debounce={this.debounce}
+          debounce={this.debounce} 
         />
       ),
       PortfolioWithProps = props => (

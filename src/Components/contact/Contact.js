@@ -114,7 +114,7 @@ export default class Contact extends Component {
                   : i === a.length - 1
                     ? `and ${x}`
                     : a.length < 3 || i === a.length - 2
-                      ? `${x} `
+                      ? `${x}, `
                       : `${x}, `)
           )
         if (j > 0) textareaText += '.'

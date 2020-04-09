@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import aboutData from './aboutData'
 
 export default class About extends Component {
@@ -9,7 +9,8 @@ export default class About extends Component {
 			width: window.innerWidth > window.innerHeight,
 			bgSize: window.innerWidth > window.innerHeight ? `100% auto` : `auto 100%`,
 			tsBgSize: window.innerWidth > window.innerHeight ? `${window.innerWidth}px auto` : `auto 100%`,
-			arrowDown: true
+			arrowDown: true,
+			currentSection: 0
 		}
 		this.unload = _ => {
 			window.removeEventListener('resize', this.resize)
@@ -17,20 +18,21 @@ export default class About extends Component {
 			window.removeEventListener('touchend', this.handleScroll, false)
 			window.removeEventListener('mousewheel', this.handleScroll, false)
 			window.removeEventListener('unload', this.unload)
-			clearTimeout(this.scrollTimeout)
-			clearTimeout(this.scrollCaptureTimeout)
+			// clearTimeout(this.scrollTimeout)
+			// clearTimeout(this.scrollCaptureTimeout)
 		}
 		this.titleSkillsBackgroundStyle = JSON.parse(JSON.stringify(aboutData.aboutSections[0].style))
 		this.educationBackgroundStyle = null
 		this.personalPathBackgroundStyle = null
 		this.setWTimeout = null
-		this.sNum = -1
-		this.oldScroll = 0
+		// this.sNum = -1
+		// this.oldScroll = 0
 		this.sections = null
-		this.scrollable = true
-		this.scrollTimeout = null
-		this.scrollCaptureTimeout = null
-		this.arrowWrap = null
+		// this.scrollable = true
+		// this.scrollTimeout = null
+		// this.scrollCaptureTimeout = null
+		// this.arrowWrap = null
+		this.oldTops = [0, 0, 0]
 	}
 
 	componentDidMount() {
@@ -43,53 +45,104 @@ export default class About extends Component {
 			window.addEventListener('beforeunload', this.unload)
 		}, 750)
 		this.sections = document.getElementsByClassName('about__section__wrap')
-		this.arrowWrap = document.getElementsByClassName('about__arrow__wrap')[0].classList
+		// this.arrowWrap = document.getElementsByClassName('about__arrow__wrap')[0].classList
+		const aboutDots = document.getElementsByClassName("about__dot")
+		for (let i = 0; i < aboutDots.length; i++) {
+			aboutDots[i].addEventListener('click', e=>this.handleDotClick(e,i), false)
+			this.oldTops[i] = this.sections[i].getBoundingClientRect().top
+		}
 	}
+
+	// shouldComponentUpdate(nextProps, nextState) {
+	// 	if (nextProps.unload) {
+	// 		this.handleScroll = null
+	// 		this.scrollable = false
+	// 		window.scrollTo({ top: 0, left: 0 })	
+	// 		this.unload()
+	// 	}
+	// 	if (this.state !== nextState || this.props !== nextProps) return true
+	// }
 
 	componentWillUnmount() {
 		this.unload()
 	}
 
-	handleScroll = (e, down) => {
-		var that = this
-		const scrollSection = down => {
-			if ((down !== undefined && !down) || that.oldScroll > window.scrollY) {
-				if (that.sNum > 0) {
-					that.sections[--that.sNum].scrollIntoView({
-						alignToTop: true,
-						behavior: 'smooth'
-					})
-				} else if (that.sNum === 0) {
-					window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
-					that.sNum--
-				}
-			} else if ((down !== undefined && down) || that.oldScroll < window.scrollY) {
-				if (that.sNum < that.sections.length - 1) {
-					that.sections[++that.sNum].scrollIntoView({
-						alignToTop: true,
-						behavior: 'smooth'
-					})
-					if (that.sNum === that.sections.length - 1)
-						this.setState({ arrowDown: false }, () => that.arrowWrap.add('pending'))
-				}
-			}
-		}
-		if (this.scrollable) {
-			this.scrollable = false
-			clearTimeout(this.scrollTimeout)
-			clearTimeout(this.scrollCaptureTimeout)
-			this.scrollCaptureTimeout = setTimeout(function() {
-				that.arrowWrap.add('pending')
-				scrollSection(down)
-				that.scrollTimeout = setTimeout(function() {
-					that.scrollable = true
-					that.oldScroll = window.pageYOffset
-					that.arrowWrap.remove('pending')
-					if (that.sNum <= 0 && that.state.arrowDown === false) that.setState({ arrowDown: true })
-				}, 700);
-			}, 500);
-		}
+	handleDotClick = (e, i) => {
+		document.getElementsByClassName('about__section__wrap')[i].scrollIntoView({
+			alignToTop: true,
+			behavior: 'smooth'
+		})
 	}
+
+	handleScroll = e => {
+		let middle = window.innerHeight/2
+		for (let i = 0; i < this.sections.length; i++) {
+			const top = this.sections[i].getBoundingClientRect().top;
+			if (top > middle && this.oldTops[i] < middle) {
+				this.setState({currentSection: i-1})
+			} else if (top < middle && this.oldTops[i] > middle) {
+				this.setState({currentSection: i})
+			}
+			this.oldTops[i] = top;
+		}
+		// let sections = this.sections.map((section, i)=>{section, top: section.getBoundingClientRect().top})
+		// let currentSection = null;
+		// for (let i = 0; i < sections.length; i++) {
+		// 	if (!currentSection || Math.abs(sections[i].top - middle) < currentSection 
+		// }
+		// let currentSection = sections.filter(section=>)
+		// for (let i = 0; i < this.sections.length; i++) {
+		// 	if (this.sections[i].getBoundingClientRect().top === (window.innerHeight / 2)) {
+
+		// 	}
+		// }
+	}
+
+	// handleScroll = (e, down) => {
+	// 	if (!this.scrollable) {
+	// 		e.preventDefault();
+	// 		console.log('not scrollable', e);
+	// 		return;
+	// 	}
+	// 	var that = this
+	// 	const scrollSection = down => {
+	// 		if ((down !== undefined && !down) || that.oldScroll > window.scrollY) {
+	// 			if (that.sNum > 0) {
+	// 				that.sections[--that.sNum].scrollIntoView({
+	// 					alignToTop: true,
+	// 					behavior: 'smooth'
+	// 				})
+	// 			} else if (that.sNum === 0) {
+	// 				window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+	// 				that.sNum--
+	// 			}
+	// 		} else if ((down !== undefined && down) || that.oldScroll < window.scrollY) {
+	// 			if (that.sNum < that.sections.length - 1) {
+	// 				that.sections[++that.sNum].scrollIntoView({
+	// 					alignToTop: true,
+	// 					behavior: 'smooth'
+	// 				})
+	// 				if (that.sNum === that.sections.length - 1)
+	// 					this.setState({ arrowDown: false }, () => that.arrowWrap.add('pending'))
+	// 			}
+	// 		}
+	// 	}
+	// 	if (this.scrollable) {
+	// 		this.scrollable = false
+	// 		clearTimeout(this.scrollTimeout)
+	// 		clearTimeout(this.scrollCaptureTimeout)
+	// 		this.scrollCaptureTimeout = setTimeout(function() {
+	// 			that.arrowWrap.add('pending')
+	// 			scrollSection(down)
+	// 			that.scrollTimeout = setTimeout(function() {
+	// 				that.scrollable = true
+	// 				that.oldScroll = window.pageYOffset
+	// 				that.arrowWrap.remove('pending')
+	// 				if (that.sNum <= 0 && that.state.arrowDown === false) that.setState({ arrowDown: true })
+	// 			}, 700);
+	// 		}, 200);
+	// 	}
+	// }
 
 	resize = _ => {
 		if (this.state.height !== this.state.width) {
@@ -146,21 +199,8 @@ export default class About extends Component {
 				}
 			}),
 			path = about[2].path.map((p, i, arr) => {
-				let cBeg = null,
-					cLink = null,
-					cEnd = null
-				if (i === arr.length - 1) {
-					cBeg = p.slice(0, p.indexOf('.') + 2)
-					cLink = <a href="/contact/">Contact me</a>
-					cEnd = p.slice(p.indexOf('me') + 2)
-				}
 				return (
-					<blockquote className="personal__path__p" key={i}>
-						{!cBeg ? p : ''}
-						{cBeg}
-						{cLink}
-						{cEnd}
-					</blockquote>
+					<blockquote className="personal__path__p" key={i} dangerouslySetInnerHTML={{__html: p}}></blockquote>
 				)
 			})
 
@@ -205,12 +245,17 @@ export default class About extends Component {
 							{path}
 						</div>
 					</section>
-					<div
+					{/* <div
 						className={'about__arrow__wrap' + (this.state.arrowDown ? ' down' : ' up')}
 						onClick={e => this.handleScroll(e, this.state.arrowDown)}
 					>
 						<span className="about__arrow" />
-					</div>
+					</div> */}
+				</div>
+				<div className="about__dots">
+					<span className={`about__dot${this.state.currentSection===0 ? " selected" : ""}`}></span>
+					<span className={`about__dot${this.state.currentSection===1 ? " selected" : ""}`}></span>
+					<span className={`about__dot${this.state.currentSection===2 ? " selected" : ""}`}></span>
 				</div>
 			</div>
 		)

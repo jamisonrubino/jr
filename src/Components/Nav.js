@@ -41,12 +41,13 @@ export default class Nav extends Component {
   render() {
     const path = this.props.location.pathname.split('/').filter(x => x.length > 0)[0]
     let sm = this.props.size === 'sm' && !this.state.headerTop,
+      md = this.props.size === 'md' && !this.state.headerTop,
       home = this.props.location.pathname.length <= 1
 
     const HeaderHome = props => (
       <div className="header__home">
         <h1 className={"header__home__link" + (this.props.location.pathname !== '/' ? '' : ' selected')}>
-          <Link to="/" style={home && sm ? { color: 'gold' } : {}}>{`${
+          <Link to="/" style={home && (sm || md) ? (sm ? { color: 'gold', paddingTop: '0' } : { color: 'gold', paddingTop: 0, lineHeight: '65px' }) : {}}>{`${
             sm ? 'JR' : 'Jamison Rubino'
           }`}</Link>
         </h1>
