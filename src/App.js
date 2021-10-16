@@ -31,6 +31,7 @@ class App extends Component {
       ],
       ['Github', 'jamisonrubino', 'https://github.com/jamisonrubino'],
       ['Codewars', 'jamisonrubino', 'https://www.codewars.com/users/jamisonrubino']
+      // ,['Upwork', 'Jamison Rubino', 'https://www.upwork.com/o/profiles/users/~0180302a9d35e1993e/']
     ]
 		//			['Phone', '(208) 596-4065', 'tel:208-596-4065'],
     this.contactSVG = [...Array(this.contactArr.length)]
@@ -145,14 +146,14 @@ class App extends Component {
           size={this.state.size}
           svg={this.state.contactSVG}
         />
-      ),
-      PayWithProps = props => (
-        <Pay 
-          {...props}
-          size={this.state.size} 
-          stripe={this.state.stripe}
-        />
       )
+      // ,PayWithProps = props => (
+      //   <Pay 
+      //     {...props}
+      //     size={this.state.size} 
+      //     stripe={this.state.stripe}
+      //   />
+      // )
     return (
       <div className="App">
         <NavWithRoute />
@@ -161,7 +162,7 @@ class App extends Component {
           <Route path="/portfolio/:piece?" component={PortfolioWithProps} />
           <Route path="/services" component={ServicesWithProps} />
           <Route path="/contact" component={ContactWithProps} />
-          <Route path="/pay/:invoice_id?" component={PayWithProps} />
+          {/* <Route path="/pay/:invoice_id?" component={PayWithProps} /> */}
         </div>
       </div>
     )

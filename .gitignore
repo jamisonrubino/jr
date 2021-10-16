@@ -9,3 +9,4 @@ sw-precache-config.js
 *.log
 .env
 .vscode
+uw_api_code.js
